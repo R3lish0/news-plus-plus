@@ -1,9 +1,16 @@
 ---
-interface Props {
-	content: string;
+interface Author {
+	name: string;
+	github_uri: string;
+	profile_pic_uri: string;
 }
 
-const { content } = Astro.props;
+interface Props {
+	title: string;
+	authors: Author[];
+}
+
+const { title: content, authors } = Astro.props;
 ---
 
 <nav class="navbar">
@@ -13,29 +20,17 @@ const { content } = Astro.props;
 	<div class="navbar-section">
 		<span>by</span>
 	</div>
-	<!-- TODO :: interface Props { authors[]: { name: string, github: string, img: string }[]; }; -->
-	<div class="navbar-section">
-		<a
-			class="navbar-link navbar-link-author"
-			href="https://github.com/R3lish0/"
-		>
-			<img
-				class="navbar-img-author"
-				src="https://avatars.githubusercontent.com/u/43016438?v=4"
-			/>
-		</a>
-	</div>
-	<div class="navbar-section">
-		<a
-			class="navbar-link navbar-link-author"
-			href="https://github.com/stickyfingies"
-		>
-			<img
-				class="navbar-img-author"
-				src="https://avatars.githubusercontent.com/u/11356884?v=4"
-			/>
-		</a>
-	</div>
+	{
+		authors.map((author) => (
+			<a class="navbar-link navbar-link-author" href={author.github_uri}>
+				<img
+					class="navbar-img-author"
+					alt={author.name}
+					src={author.profile_pic_uri}
+				/>
+			</a>
+		))
+	}
 </nav>
 <style>
 	@import url("https://fonts.googleapis.com/css2?family=Libre+Barcode+128+Text&display=swap");
@@ -95,5 +90,15 @@ const { content } = Astro.props;
 		height: 4rem;
 		background-color: red;
 		border: 5px solid black;
+		transition:
+			width 0.3s ease-in-out,
+			height 0.3s ease-in-out,
+			margin 0.3s ease-in-out;
+	}
+
+	.navbar-img-author:hover {
+		width: 5rem;
+		height: 5rem;
+		margin: 1rem;
 	}
 </style>
