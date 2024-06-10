@@ -1,0 +1,99 @@
+---
+interface Props {
+	content: string;
+}
+
+const { content } = Astro.props;
+---
+
+<nav class="navbar">
+	<div class="navbar-section">
+		<a class="navbar-link navbar-link-home" href="/">{content}</a>
+	</div>
+	<div class="navbar-section">
+		<span>by</span>
+	</div>
+	<!-- TODO :: interface Props { authors[]: { name: string, github: string, img: string }[]; }; -->
+	<div class="navbar-section">
+		<a
+			class="navbar-link navbar-link-author"
+			href="https://github.com/R3lish0/"
+		>
+			<img
+				class="navbar-img-author"
+				src="https://avatars.githubusercontent.com/u/43016438?v=4"
+			/>
+		</a>
+	</div>
+	<div class="navbar-section">
+		<a
+			class="navbar-link navbar-link-author"
+			href="https://github.com/stickyfingies"
+		>
+			<img
+				class="navbar-img-author"
+				src="https://avatars.githubusercontent.com/u/11356884?v=4"
+			/>
+		</a>
+	</div>
+</nav>
+<style>
+	@import url("https://fonts.googleapis.com/css2?family=Libre+Barcode+128+Text&display=swap");
+
+	.navbar {
+		width: calc(100% - 20em);
+		height: 5em;
+		color: white;
+		padding-top: 4em;
+		padding-inline: 10em;
+		margin: auto;
+		border-radius: 6px;
+
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		flex-wrap: nowrap;
+
+		font-weight: 400;
+		font-style: normal;
+	}
+
+	.navbar-section {
+		/* padding: 1em; */
+		/* width: auto; */
+		display: flex;
+	}
+
+	.navbar-section span {
+		padding-inline: 2em;
+	}
+
+	.navbar-link {
+		font-size: 5em;
+		color: #ddd;
+		text-decoration: none;
+		letter-spacing: normal;
+		font-weight: 800;
+		white-space: nowrap;
+		transition:
+			letter-spacing 0.3s ease-in-out,
+			color 0.3s ease-in-out;
+	}
+
+	.navbar-link:hover {
+		color: white;
+		letter-spacing: 0.2em;
+	}
+
+	.navbar-link-home {
+		font-family: "Libre Barcode 128 Text", system-ui;
+	}
+
+	.navbar-img-author {
+		border-radius: 100%;
+		width: 4rem;
+		height: 4rem;
+		background-color: red;
+		border: 5px solid black;
+	}
+</style>
