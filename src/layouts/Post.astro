@@ -1,0 +1,117 @@
+---
+import Navbar from "../components/Navbar.astro";
+
+const { frontmatter } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+
+        <meta name="viewport" content="width=device-width" />
+        <!-- <link rel="icon" type="image/svg+xml" href="/favicon.svg" /> -->
+
+        <title>{frontmatter.title}</title>
+    </head>
+
+    <body>
+        <Navbar
+            title="news++"
+            authors={[
+                {
+                    name: "R3lish0",
+                    github_uri: "https://github.com/R3lish0",
+                    profile_pic_uri:
+                        "https://avatars.githubusercontent.com/u/43016438?v=4",
+                },
+                {
+                    name: "stickyfingies",
+                    github_uri: "https://github.com/stickyfingies",
+                    profile_pic_uri:
+                        "https://avatars.githubusercontent.com/u/11356884?v=4",
+                },
+            ]}
+        />
+        <div id="article">
+            <div id="img-container">
+                <img
+                    src={frontmatter.img}
+                    alt="Missing Article Image"
+                    style=""
+                />
+            </div>
+            <h1 style="padding-left:1vw">{frontmatter.title}</h1>
+            <h2 style="padding-left:1vw">Post author: {frontmatter.author}</h2>
+            <h3 style="padding-left:1vw">Date: {frontmatter.date}</h3>
+            <div id="slot">
+                <slot />
+            </div>
+        </div>
+        <!-- Markdown content is injected here -->
+        <!-- ... -->
+    </body>
+</html>
+<style is:global>
+    :root {
+        --accent: 136, 58, 234;
+        --accent-light: 224, 204, 250;
+        --accent-dark: 49, 10, 101;
+        --accent-gradient: linear-gradient(
+            45deg,
+            rgb(var(--accent)),
+            rgb(var(--accent-light)) 30%,
+            white 60%
+        );
+    }
+    html {
+        font-family: system-ui, sans-serif;
+        background: #13151a;
+        background-size: 224px;
+    }
+    code {
+        font-family:
+            Menlo,
+            Monaco,
+            Lucida Console,
+            Liberation Mono,
+            DejaVu Sans Mono,
+            Bitstream Vera Sans Mono,
+            Courier New,
+            monospace;
+    }
+    #article {
+        list-style: none;
+        background-color: #23262d;
+        background-image: none;
+        background-size: 400%;
+        border-radius: 7px;
+        background-position: 100%;
+        transition: background-position 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+        box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+        width: 60%;
+        min-width: 60rem;
+        margin-top: 5rem;
+        margin-left: auto;
+        margin-right: auto;
+        padding-bottom:1rem;
+        height: auto;
+        color: white;
+    }
+
+    img{
+        width: 100%;
+        height: auto;
+        border-radius: 7px 7px 0 0;
+    }
+
+
+    #slot {
+        margin-left:1.5vw;
+        margin-right:1.5vw;
+        padding:1rem;
+        border-radius:7px;
+        background-color: #13151a;
+
+    }
+</style>
