@@ -1,71 +1,44 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import Card from '../components/Card.astro';
-import Press from '../components/Press.astro';
+import { getCollection, getEntry } from "astro:content";
+import Layout from "../layouts/Layout.astro";
+import Card from "../components/Card.astro";
+import Press from "../components/Press.astro";
 
 
+const allArticles = await getCollection('article')
 
-let pressArticle : string = `
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ullamcorper ultricies eros, ac fermentum nisi pulvinar vitae. Cras et orci at enim semper consectetur quis ac nisi. Praesent id vulputate est, et maximus diam. Aliquam feugiat, sapien nec porttitor sagittis, nisi nisi aliquet orci, elementum tempus arcu metus hendrerit lectus. Maecenas laoreet luctus elit, placerat mattis ipsum faucibus sit amet. Etiam eros erat, tempus nec eleifend tristique, lobortis a urna. Praesent eget gravida purus. Donec vel venenatis ipsum. Curabitur sagittis diam at risus egestas, quis scelerisque ex sodales. Curabitur lacinia eleifend massa accumsan blandit. Cras imperdiet turpis sit amet convallis luctus.
-
-Sed scelerisque rhoncus nisi nec iaculis. Ut blandit rutrum augue vel viverra. Donec lobortis ornare ante, et viverra ligula ultricies vitae. Nullam sed mi lorem. Nunc pellentesque varius orci non porta. Donec maximus libero a turpis ultricies consequat. Nam porttitor, risus vitae vestibulum porttitor, libero ex ultrices dolor, et aliquet neque ligula at eros. Cras at ante at augue scelerisque rutrum vel sit amet leo. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Mauris mollis laoreet lorem et tempor. Fusce finibus nisl a orci laoreet, sagittis ullamcorper sapien iaculis. Morbi nec metus efficitur, hendrerit arcu at, tempus felis. Praesent nec dictum felis. Aliquam facilisis venenatis consectetur.
-
-Nulla sagittis fermentum faucibus. Etiam id libero nunc. Sed porta non augue vitae fringilla. Morbi vitae varius nisl. Proin et ante lacus. Nulla volutpat ac nibh ut ullamcorper. Suspendisse sit amet tellus nec ligula sollicitudin consequat a eu enim. Vestibulum sapien mauris, maximus vitae nisi non, consequat egestas odio. Suspendisse nulla sapien, sollicitudin sed gravida aliquam, laoreet vel mauris. Etiam consectetur venenatis odio ac ultrices.
-
-Integer vitae dignissim ex. Vivamus at enim non arcu pellentesque imperdiet eget eget arcu. Donec pretium nibh felis, vitae interdum urna molestie vel. Quisque congue leo eu augue finibus bibendum. Sed ac nunc sed lacus dapibus faucibus nec vitae dolor. Nulla facilisi. Curabitur nisi erat, commodo nec auctor at, ultrices id leo. Duis pharetra blandit risus, non semper lacus ornare ac. Phasellus eu orci eros. Ut ullamcorper nibh sed convallis bibendum.
-
-Phasellus venenatis arcu vitae consectetur laoreet. Praesent sed velit sodales, lobortis velit rutrum, gravida risus. Duis semper at ex non mattis. Etiam a consectetur ipsum, vel semper mi. Nullam ac pellentesque eros, quis viverra metus. Quisque placerat eros at lacus fermentum luctus. Aenean purus risus, tristique a blandit sit amet, bibendum at velit. Nullam dapibus ac purus sed pretium. Nunc tincidunt cursus porttitor. Donec ante lacus, sodales a metus in, gravida aliquam ligula. Morbi non rutrum justo, eget condimentum elit. Vestibulum sed est venenatis, dapibus dui ac, malesuada erat. Duis non ornare tortor. Ut dictum ante ligula, et semper turpis viverra id. Curabitur lectus turpis, commodo ac enim eget, posuere vehicula nisl. In sit amet turpis libero. `
 
 
 
 ---
 
-
-
 <Layout title="News++">
 	<main>
-		<h1>Hot Off The Press</h1>
-		<Press
-			href="articles/e-article-1"
-			title="First Article!"
-			body={pressArticle}
-			img="/src/components/images/placeholder.jpg">
-		</Press>
+		<Press />
 		<ul class="card-grid">
-			<Card
-				href="articles/e-article-1"
-				title="First Article!"
-				img="/src/components/images/placeholder.jpg"
-			/>
-			<Card
-				href="https://astro.build/integrations/"
-				title="Rust Making Other Languages Faster?!"
-				img="/src/components/images/placeholder.jpg"
-			/>
-			<Card
-				href="https://astro.build/themes/"
-				title="Huge Vulkan Update"
-				img="/src/components/images/placeholder.jpg"
-			/>
-			<Card
-				href="https://astro.build/themes/"
-				title="Sets And Their Many Uses!"
-				img="/src/components/images/placeholder.jpg"
-			/>
+			{
+				allArticles.map((article) => (
+					<Card
+					href={`/posts/${article.slug}`}
+					title={article.data.title} 
+					img={article.data.img}
+					/>
 
-		</div>
+				))
+			}
+		</ul>
 	</main>
 </Layout>
 
 <style>
 	main {
 		margin: auto;
-		width: 70%;
+		width: 50%;
 		max-width: calc(100% - 2rem);
 		color: white;
 		font-size: 20px;
 		line-height: 1.6;
+		min-width: 15rem;
 	}
 
 	h1 {
@@ -79,11 +52,13 @@ Phasellus venenatis arcu vitae consectetur laoreet. Praesent sed velit sodales, 
 	.card-grid {
 		display: flex;
 		flex-direction: row;
-		width:100%;
+		gap: 1rem;
+		width: 100%;
 		flex-wrap: wrap;
-		height:auto;
-		margin:auto;
-		justify-content: space-around;
-		padding-left:0;
+		height: auto;
+		margin: auto;
+		justify-content: space-between;
+		padding-left: 0;
+		max-width: 100rem;
 	}
 </style>
