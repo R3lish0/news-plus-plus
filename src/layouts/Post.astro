@@ -1,7 +1,6 @@
 ---
 import Navbar from "../components/Navbar.astro";
 
-const { frontmatter } = Astro.props;
 ---
 
 <!doctype html>
@@ -12,7 +11,6 @@ const { frontmatter } = Astro.props;
         <meta name="viewport" content="width=device-width" />
         <!-- <link rel="icon" type="image/svg+xml" href="/favicon.svg" /> -->
 
-        <title>{frontmatter.title}</title>
     </head>
 
     <body>
@@ -33,23 +31,8 @@ const { frontmatter } = Astro.props;
                 },
             ]}
         />
-        <div id="article">
-            <div id="img-container">
-                <img
-                    src={frontmatter.img}
-                    alt="Missing Article Image"
-                    style=""
-                />
-            </div>
-            <h1 style="padding-left:1vw">{frontmatter.title}</h1>
-            <h2 style="padding-left:1vw">Post author: {frontmatter.author}</h2>
-            <h3 style="padding-left:1vw">Date: {frontmatter.date}</h3>
-            <div id="slot">
-                <slot />
-            </div>
-        </div>
-        <!-- Markdown content is injected here -->
-        <!-- ... -->
+        <slot />
+        
     </body>
 </html>
 <style is:global>
@@ -80,38 +63,5 @@ const { frontmatter } = Astro.props;
             Courier New,
             monospace;
     }
-    #article {
-        list-style: none;
-        background-color: #23262d;
-        background-image: none;
-        background-size: 400%;
-        border-radius: 7px;
-        background-position: 100%;
-        transition: background-position 0.6s cubic-bezier(0.22, 1, 0.36, 1);
-        box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.1);
-        width: 60%;
-        min-width: 60rem;
-        margin-top: 5rem;
-        margin-left: auto;
-        margin-right: auto;
-        padding-bottom:1rem;
-        height: auto;
-        color: white;
-    }
-
-    img{
-        width: 100%;
-        height: auto;
-        border-radius: 7px 7px 0 0;
-    }
-
-
-    #slot {
-        margin-left:1.5vw;
-        margin-right:1.5vw;
-        padding:1rem;
-        border-radius:7px;
-        background-color: #13151a;
-
-    }
+    
 </style>
