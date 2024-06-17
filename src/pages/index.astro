@@ -5,7 +5,7 @@ import Press from '../components/Press.astro';
 
 
 
-let pressTitle : string = `
+let pressArticle : string = `
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ullamcorper ultricies eros, ac fermentum nisi pulvinar vitae. Cras et orci at enim semper consectetur quis ac nisi. Praesent id vulputate est, et maximus diam. Aliquam feugiat, sapien nec porttitor sagittis, nisi nisi aliquet orci, elementum tempus arcu metus hendrerit lectus. Maecenas laoreet luctus elit, placerat mattis ipsum faucibus sit amet. Etiam eros erat, tempus nec eleifend tristique, lobortis a urna. Praesent eget gravida purus. Donec vel venenatis ipsum. Curabitur sagittis diam at risus egestas, quis scelerisque ex sodales. Curabitur lacinia eleifend massa accumsan blandit. Cras imperdiet turpis sit amet convallis luctus.
 
@@ -18,6 +18,7 @@ Integer vitae dignissim ex. Vivamus at enim non arcu pellentesque imperdiet eget
 Phasellus venenatis arcu vitae consectetur laoreet. Praesent sed velit sodales, lobortis velit rutrum, gravida risus. Duis semper at ex non mattis. Etiam a consectetur ipsum, vel semper mi. Nullam ac pellentesque eros, quis viverra metus. Quisque placerat eros at lacus fermentum luctus. Aenean purus risus, tristique a blandit sit amet, bibendum at velit. Nullam dapibus ac purus sed pretium. Nunc tincidunt cursus porttitor. Donec ante lacus, sodales a metus in, gravida aliquam ligula. Morbi non rutrum justo, eget condimentum elit. Vestibulum sed est venenatis, dapibus dui ac, malesuada erat. Duis non ornare tortor. Ut dictum ante ligula, et semper turpis viverra id. Curabitur lectus turpis, commodo ac enim eget, posuere vehicula nisl. In sit amet turpis libero. `
 
 
+
 ---
 
 
@@ -26,15 +27,15 @@ Phasellus venenatis arcu vitae consectetur laoreet. Praesent sed velit sodales, 
 	<main>
 		<h1>Hot Off The Press</h1>
 		<Press
-			href=""
-			title="Example Title"
-			body={pressTitle}
+			href="articles/e-article-1"
+			title="First Article!"
+			body={pressArticle}
 			img="/src/components/images/placeholder.jpg">
 		</Press>
 		<ul class="card-grid">
 			<Card
-				href="https://docs.astro.build/"
-				title="Qualcomm is the Qual-BOMB!"
+				href="articles/e-article-1"
+				title="First Article!"
 				img="/src/components/images/placeholder.jpg"
 			/>
 			<Card
