@@ -28,6 +28,7 @@ const { title: content, authors } = Astro.props;
 					alt={author.name}
 					src={author.profile_pic_uri}
 				/>
+				<p class="navbar-img-caption">{author.name}</p>
 			</a>
 		))
 	}
@@ -60,7 +61,18 @@ const { title: content, authors } = Astro.props;
 	}
 
 	.navbar-section span {
-		padding-inline: 2em;
+		font-size: 10px;
+		color: #aaa;
+		padding-inline: 0;
+		visibility: hidden;
+	}
+
+	@media only screen and (min-width: 601px) {
+		.navbar-section span {
+			font-size: 30px;
+			padding-inline: 2rem;
+			visibility: visible;
+		}
 	}
 
 	.navbar-link {
@@ -71,11 +83,11 @@ const { title: content, authors } = Astro.props;
 		font-weight: 800;
 		white-space: nowrap;
 		transition:
-			letter-spacing 0.3s ease-in-out,
-			color 0.3s ease-in-out;
+			letter-spacing 1s ease-in-out,
+			color 1s ease-in-out;
 	}
 
-	.navbar-link:hover {
+	.navbar-link-home:hover {
 		color: white;
 		letter-spacing: 0.2em;
 	}
@@ -96,9 +108,39 @@ const { title: content, authors } = Astro.props;
 			margin 0.3s ease-in-out;
 	}
 
-	.navbar-img-author:hover {
+	.navbar-link-author {
+		margin: 0;
+		transition: margin 0.3s ease-in-out;
+	}
+
+	.navbar-link-author:hover {
+		margin: 1rem;
+	}
+
+	.navbar-link-author:hover .navbar-img-author {
 		width: 5rem;
 		height: 5rem;
-		margin: 1rem;
+	}
+
+	.navbar-img-caption {
+		font-size: 0.5rem;
+		color: white;
+		text-align: center;
+		font-weight: 400;
+		margin-top: -1rem;
+		transition:
+			font-size 0.3s ease-in-out,
+			font-weight 0.3s ease-in-out;
+	}
+
+	@media only screen and (max-width: 600px) {
+		.navbar-img-caption {
+			visibility: hidden;
+		}
+	}
+
+	.navbar-link-author:hover .navbar-img-caption {
+		font-size: 1rem;
+		font-weight: 800;
 	}
 </style>
