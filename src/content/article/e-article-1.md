@@ -2,7 +2,7 @@
 title: First Article!
 author: Eli Newlin
 date: 06/16/2024
-img: src/components/images/placeholder.jpg
+img: https://i.imgur.com/jx3ne8Q.jpg
 ---
 
 
