@@ -19,7 +19,7 @@ const allArticles = await getCollection('article')
 			{
 				allArticles.map((article) => (
 					<Card
-					href={`/posts/${article.slug}`}
+					href={`/squealing-shell/posts/${article.slug}`}
 					title={article.data.title} 
 					img={article.data.img}
 					/>
