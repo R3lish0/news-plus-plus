@@ -3,9 +3,6 @@ title: A Changing System is A Good System
 author: Eli Newlin
 date: 06/18/2024
 img: https://i.imgur.com/4aV9OOk.jpeg
-
-
-
 ---
 
 ### A Changing System is A Good System
