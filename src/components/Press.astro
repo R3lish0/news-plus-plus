@@ -24,6 +24,11 @@ const { Content } = await article.render();
                     <Content />
                 </span>
             </div>
+            <button id="read-more">
+                <a href={`/news-plus-plus/posts/${article.slug}`}>
+                    <h3>Read More</h3>
+                </a>
+            </button>
         </div>
     </div>
 </div>
@@ -96,9 +101,28 @@ const { Content } = await article.render();
         padding: 1rem;
         border-radius: 7px;
         background-color: #13151a;
+        max-height: 40rem;
+        overflow: hidden;
     }
 
     #slot span {
         word-wrap: break-word;
+    }
+
+    #read-more {
+        width: 30%;
+        min-width: 8rem;
+        margin: auto;
+        margin-top: 3rem;
+        background-color: #13151a;
+        border-radius: 8px;
+    }
+
+    #read-more > a {
+        display: flex;
+        justify-content: center;
+        text-decoration: none;
+        color: white;
+        width: 100%;
     }
 </style>
