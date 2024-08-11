@@ -13,6 +13,7 @@
     "@astrojs/check": "^0.7.0",
     "@astrojs/mdx": "^3.1.0",
     "astro": "^4.10.1",
+    "mdx": "^0.3.1",
     "typescript": "^5.4.5"
   }
 }
