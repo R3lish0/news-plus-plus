@@ -38,19 +38,19 @@ First, we should understand how the Grove and Gengine rendering frameworks overl
 #### Architecture Today
 
 The Grove's renderer exposes the following interface:
-- `init(drawing_surface)` 
+- `init(drawing_surface)`
 - `loadModel(path) -> model`
 - `addObject(model)`
-- `removeObject(model)` 
-- `render()` 
+- `removeObject(model)`
+- `render()`
 
 Gengine's renderer exposes the following interface:
-- `create(drawing_surface)` 
-- `create_geometry(geometry_data) -> geometry` 
+- `create(drawing_surface)`
+- `create_geometry(geometry_data) -> geometry`
 	- `destroy_geometry(geometry)`
-- `create_image(data) -> image` 
+- `create_image(data) -> image`
 	- `destroy_image(image)`
-- `create_shader(path) -> shader` 
+- `create_shader(path) -> shader`
 	- `destroy_shader(shader)`
 - `create_material(shader, image) -> material`
 	- `destroy_material(material)`
