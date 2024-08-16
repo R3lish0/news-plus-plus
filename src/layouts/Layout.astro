@@ -2,7 +2,7 @@
 import Navbar from "../components/Navbar.astro";
 
 interface Props {
-	title: string;
+    title: string;
 }
 
 const { title } = Astro.props;
@@ -10,61 +10,66 @@ const { title } = Astro.props;
 
 <!doctype html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
+    <head>
+        <meta charset="UTF-8" />
 
-		<meta name="viewport" content="width=device-width" />
-		<!-- <link rel="icon" type="image/svg+xml" href="/favicon.svg" /> -->
+        <meta name="viewport" content="width=device-width" />
+        <!-- <link rel="icon" type="image/svg+xml" href="/favicon.svg" /> -->
 
-		<title>{title}</title>
-	</head>
-	<body>
-		<Navbar
-			title="news++"
-			authors={[
-				{
-					name: "R3lish0",
-					github_uri: "https://github.com/R3lish0",
-					profile_pic_uri:
-						"https://avatars.githubusercontent.com/u/43016438?v=4",
-				},
-				{
-					name: "stickyfingies",
-					github_uri: "https://github.com/stickyfingies",
-					profile_pic_uri:
-						"https://avatars.githubusercontent.com/u/11356884?v=4",
-				},
-			]}
-		/>
-		<slot />
-	</body>
+        <title>{title}</title>
+    </head>
+    <body>
+        <Navbar
+            title="news++"
+            authors={[
+                {
+                    name: "R3lish0",
+                    github_uri: "https://github.com/R3lish0",
+                    profile_pic_uri:
+                        "https://avatars.githubusercontent.com/u/43016438?v=4",
+                },
+                {
+                    name: "stickyfingies",
+                    github_uri: "https://github.com/stickyfingies",
+                    profile_pic_uri:
+                        "https://avatars.githubusercontent.com/u/11356884?v=4",
+                },
+            ]}
+        />
+        <slot />
+    </body>
 </html>
 <style is:global>
-	:root {
-		--accent: 136, 58, 234;
-		--accent-light: 224, 204, 250;
-		--accent-dark: 49, 10, 101;
-		--accent-gradient: linear-gradient(
-			45deg,
-			rgb(var(--accent)),
-			rgb(var(--accent-light)) 30%,
-			white 60%
-		);
-	}
-	html {
-		font-family: system-ui, sans-serif;
-		background: #13151a;
-		background-size: 224px;
-	}
-	code {
-		font-family:
-			Menlo,
-			Monaco,
-			Lucida Console,
-			Liberation Mono,
-			DejaVu Sans Mono,
-			Bitstream Vera Sans Mono,
-			Courier New,
-			monospace;
-	}
+    :root {
+        --accent: 136, 58, 234;
+        --accent-light: 224, 204, 250;
+        --accent-dark: 49, 10, 101;
+        --accent-gradient: linear-gradient(
+            45deg,
+            rgb(var(--accent)),
+            rgb(var(--accent-light)) 30%,
+            white 60%
+        );
+    }
+    html {
+        font-family: system-ui, sans-serif;
+        background: #13151a;
+        background-size: 224px;
+    }
+    code {
+        font-family:
+            Menlo,
+            Monaco,
+            Lucida Console,
+            Liberation Mono,
+            DejaVu Sans Mono,
+            Bitstream Vera Sans Mono,
+            Courier New,
+            monospace;
+    }
+    body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
 </style>
