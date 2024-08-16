@@ -79,9 +79,15 @@ export async function getStaticPaths() {
         border-radius: 7px;
         background-color: #13151a;
     }
-    
-    #slot span{
-        word-wrap:break-word;
+
+    #slot span {
+        word-wrap: break-word;
         font-size: large;
+    }
+
+    @media (max-width: 900px) {
+        #article {
+            width: 100%;
+        }
     }
 </style>
