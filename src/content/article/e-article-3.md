@@ -2,7 +2,7 @@
 title: The Wonders of Parallelization
 author: Eli Newlin
 date: 08/19/2024
-img: https://imgur.com/a/qvUPCbJ
+img: https://i.imgur.com/MEjLxqh.jpeg
 ---
 
 ### The Wonders of Parallelization
