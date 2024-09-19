@@ -2,7 +2,7 @@
 title: Graphics Package Upgrade
 author: Seth Traman
 date: 08/10/2024
-img: https://i.imgur.com/Vhu0VQ3.jpeg
+img: https://i.imgur.com/eGqEDEi.jpeg 
 ---
 
 # GPU: Graphics Package Upgrade
