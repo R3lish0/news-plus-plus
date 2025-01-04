@@ -41,6 +41,13 @@ export async function getStaticPaths() {
                     <Content />
                 </span>
             </div>
+            <div id="back">
+                <button id="go-back" style="">
+                    <a href={`/news-plus-plus`}>
+                        <h3>Go Back</h3>
+                    </a>
+                </button>
+            </div>
         </div>
         <!-- Markdown content is injected here -->
         <!-- ... -->
@@ -80,9 +87,33 @@ export async function getStaticPaths() {
         background-color: #13151a;
     }
 
+    #go-back {
+        width: 30%;
+        min-width: 8rem;
+        margin: auto;
+        margin-top:1.5rem;
+        background-color: #13151a;
+        border-radius: 8px;
+    }
+
+    #go-back > a {
+        display: flex;
+        justify-content: center;
+        text-decoration: none;
+        color: white;
+        width: 100%;
+    }
+
     #slot span {
         word-wrap: break-word;
         font-size: large;
+    }
+
+    #back {
+        width:100%;
+        display:flex;
+        flex-direction: column;
+
     }
 
     @media (max-width: 900px) {
