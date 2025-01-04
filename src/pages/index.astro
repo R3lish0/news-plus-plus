@@ -4,8 +4,18 @@ import Layout from "../layouts/Layout.astro";
 import Card from "../components/Card.astro";
 import Press from "../components/Press.astro";
 
+
+
+
 const allArticles = await getCollection("article");
-allArticles.reverse();
+
+allArticles.sort((a, b) => {
+  const dateA = new Date(a.data.date).getTime();
+  const dateB = new Date(b.data.date).getTime();
+  return dateB - dateA;
+});
+
+
 ---
 
 <Layout title="News++">

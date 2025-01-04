@@ -1,7 +1,15 @@
 ---
-import { getEntry } from "astro:content";
+import { getCollection } from "astro:content";
 
-const article = await getEntry("article", "e-article-3");
+const allArticles = await getCollection("article");
+const mostRecentArticle = allArticles.reduce((latest, current) => {
+  const currentDate = new Date(current.data.date);
+  const latestDate = new Date(latest.data.date);
+  return currentDate > latestDate ? current : latest;
+}, allArticles[0]);
+
+
+const article = mostRecentArticle;
 
 const { Content } = await article.render();
 ---
