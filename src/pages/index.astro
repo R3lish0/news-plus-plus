@@ -25,7 +25,7 @@ allArticles.sort((a, b) => {
             {
                 allArticles.map((article) => (
                     <Card
-                        href={import.meta.env.BASE_URL + `/posts/${article.slug}`}
+                        href={`${import.meta.env.BASE_URL}posts/${article.slug}`}
                         title={article.data.title}
                         img={article.data.img}
                         author={article.data.author}
