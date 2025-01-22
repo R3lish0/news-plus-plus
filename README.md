@@ -9,5 +9,5 @@ All you need to do is the following o
 npm install
 npm run dev
 
-* Make sure to uncommend the base string in astro.config.mjs when testing locally *
-* also remember to comment again before pushing or links will break *
+*Make sure to uncommend the base string in astro.config.mjs when testing locally*
+*also remember to comment again before pushing or links will break*
