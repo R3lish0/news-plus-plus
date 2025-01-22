@@ -33,7 +33,7 @@ const { Content } = await article.render();
                 </span>
             </div>
             <button id="read-more">
-                <a href={`/news-plus-plus/posts/${article.slug}`}>
+                <a href={`${import.meta.env.BASE_URL}posts/${article.slug}`}>
                     <h3>Read More</h3>
                 </a>
             </button>
