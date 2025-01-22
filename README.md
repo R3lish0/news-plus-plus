@@ -6,8 +6,5 @@ This project is a Astro blog site for me and my friend to talk about the tech re
 
 All you need to do is the following
 
-npm install
+npm install \
 npm run dev
-
-*Make sure to uncommend the base string in astro.config.mjs when testing locally*
-*also remember to comment again before pushing or links will break*
