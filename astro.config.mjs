@@ -3,6 +3,6 @@ import { defineConfig } from 'astro/config';
 
 // https://astro.build/config
 export default defineConfig({
-    site: "https://R3lish0.github.io",
+    site: "news-plus-plus.com",
     base: "/news-plus-plus"
 });
