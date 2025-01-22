@@ -1,9 +1,9 @@
 import { defineConfig } from 'astro/config';
 
+const isProd = process.env.NODE_ENV === 'production';
 
 // https://astro.build/config
 export default defineConfig({
     site: "https://news-plus-plus.com",
-    //uncomment this when testing locally
-    base: import.meta.env.PROD ? '' :'news-plus-plus/'
-})
+    base: isProd ? '' : '/news-plus-plus'
+});
