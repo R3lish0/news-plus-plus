@@ -15,7 +15,7 @@ const { title: content, authors } = Astro.props;
 
 <nav class="navbar">
     <div class="navbar-section">
-        <a class="navbar-link navbar-link-home" href="/news-plus-plus/"
+        <a class="navbar-link navbar-link-home" href={import.meta.env.BASE_URL + `/`}
             >{content}</a
         >
     </div>
