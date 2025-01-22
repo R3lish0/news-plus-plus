@@ -87,13 +87,22 @@ export async function getStaticPaths() {
         background-color: #13151a;
     }
 
+    #back {
+        position: sticky;
+        bottom: 2rem;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        padding: 1rem 0;
+    }
+
     #go-back {
         width: 30%;
         min-width: 8rem;
         margin: auto;
-        margin-top:1.5rem;
         background-color: #13151a;
         border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
     }
 
     #go-back > a {
@@ -107,13 +116,6 @@ export async function getStaticPaths() {
     #slot span {
         word-wrap: break-word;
         font-size: large;
-    }
-
-    #back {
-        width:100%;
-        display:flex;
-        flex-direction: column;
-
     }
 
     @media (max-width: 900px) {
