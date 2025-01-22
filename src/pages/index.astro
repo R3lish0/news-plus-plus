@@ -55,14 +55,12 @@ allArticles.sort((a, b) => {
     }
 
     .card-grid {
-        display: flex;
-        flex-direction: row;
-        gap: 1rem;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+        gap: 5%;
         width: 100%;
-        flex-wrap: wrap;
         height: auto;
         margin: auto;
-        justify-content: space-between;
         padding-left: 0;
         max-width: 80rem;
     }
@@ -75,10 +73,9 @@ allArticles.sort((a, b) => {
 
     @media (max-width: 700px) {
         .card-grid {
-            display: flex;
-            flex-direction: column;
-            margin: auto;
-            align-items: center;
+            grid-template-columns: 1fr;
+            justify-items: center;
+            gap: 1rem;
         }
     }
 </style>

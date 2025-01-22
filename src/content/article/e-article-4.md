@@ -5,7 +5,6 @@ date: 01/04/2025
 img: https://i.imgur.com/JkEcAD8.jpeg 
 ---
 
-# The Developing Developer
 
 Recently at my workplace we have started developing using Cursor, a fork of VSCode that integrates Anthropic’s Claude-3.5 model, and after about a month or two of developing using this tool I have some initial thoughts, fears, and predictions for the role of the average Developer. First, I believe that the capabilities of this model make programming significantly more enjoyable. Second, I fear for not the Developer career-wise, but more capability-wise, and finally, I believe that using Cursor has reframed my idea of not only what a Developer is, but what a Developer will be if coding assistants continue to improve.
 
