@@ -4,7 +4,7 @@ This project is a Astro blog site for me and my friend to talk about the tech re
 
 ## Testing Locally
 
-All you need to do is the following o
+All you need to do is the following
 
 npm install
 npm run dev
