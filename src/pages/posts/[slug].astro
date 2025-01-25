@@ -2,11 +2,13 @@
 import { type CollectionEntry, getCollection } from "astro:content";
 import Layout from "../../layouts/Post.astro";
 
+
 //..
 
 // Access the props in this component
 const { article } = Astro.props as { article: CollectionEntry<"article"> };
 const { Content } = await article.render();
+
 
 // This function gets called at build time and generates the paths from the content folder
 export async function getStaticPaths() {
@@ -24,7 +26,7 @@ export async function getStaticPaths() {
 ---
 
 <main>
-    <Layout>
+    <Layout title={article.data.title} img={article.data.img}>
         <div id="article">
             <div id="img-container">
                 <img

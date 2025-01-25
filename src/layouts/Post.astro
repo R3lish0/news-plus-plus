@@ -1,6 +1,7 @@
 ---
 import Navbar from "../components/Navbar.astro";
 
+const { title, img } = Astro.props;
 ---
 
 <!doctype html>
@@ -9,9 +10,16 @@ import Navbar from "../components/Navbar.astro";
         <meta charset="UTF-8" />
 
         <meta name="viewport" content="width=device-width" />
-        <!-- <link rel="icon" type="image/svg+xml" href="/favicon.svg" /> -->
+        <link rel="icon" type="image/png" href="/src/components/images/favicon.png"/>
+
+        <title>{title}</title>
+        <meta property="og:title" content={title} />
+        <meta property="og:image" content={img} />
+
+
 
     </head>
+
 
     <body>
         <Navbar
