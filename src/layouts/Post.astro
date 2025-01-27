@@ -15,8 +15,8 @@ const { title, img } = Astro.props;
         <title>{title}</title>
         <meta property="og:title" content={title} />
         <meta property="og:image" content={img} />
-
-
+        <meta property="og:description" content="Read article on News++">
+        <meta property="og:url" content={Astro.url.href} />
 
     </head>
 
