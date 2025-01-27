@@ -7,7 +7,7 @@ img: https://upload.wikimedia.org/wikipedia/commons/f/fe/Chersonesos_Bell.jpg
 
 Take this article with a grain of salt, because it's my first time expressing these feelings in language.  I don't want to try writing something academic, or impressive, I just want to write whatever comes out of my fingers while I'm typing.
 
-I've been aspiring towards a software developer role since I showed my mom the very first line of code I wrote, around age 11.  For ten years, I learned about software by building it, for enjoyment at first, and for sake of compulsion or obsession thereafter.  Chromebooks, RasPi's, man I even wrote a web game on a fucking tablet.  Didn't care.  Give me a machine.
+I've been aspiring towards a software developer role since I showed my mom the very first line of code I wrote, around age 11.  For ten years, I learned about software by building it, for enjoyment at first, and for sake of compulsion or obsession thereafter. Chromebooks, RasPi's, I even wrote a web game on a tablet.  Didn't care.  Give me a machine.
 
 Now I'm 21 and I work part-time at Financial Software Corp. as a Software Engineer I.  Last decade, I didn't *know* that my obsession for writing code was going to be useful in my 20's.  I didn't have a career in mind, or a plan laid out.  Computers appealed to me, and that's the path I stuck with.  The path, I guess, brought me to the world of corporate software.
 
