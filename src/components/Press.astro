@@ -14,10 +14,10 @@ const article = mostRecentArticle;
 const { Content } = await article.render();
 ---
 
-<div>
+<div >
     <h1 style="text-align:center; margin-top:5rem;">Hot Off The Press</h1>
     <div class="link-card" style="max-width:80rem; margin:auto;">
-        <div class="card-container">
+        <div style="overflow-x: hidden" class="card-container">
             <h1 style="padding-left:1vw; margin-top:0; margin-bottom:0;">
                 {article.data.title}
             </h1>
