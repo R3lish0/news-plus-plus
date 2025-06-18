@@ -2,7 +2,7 @@
 title: Claude Code on Android - the making of Shape Survivors 2
 author: Seth Traman
 date: 06/17/2025
-img: /news-plus-plus/covers/s-article-3.png
+img: /covers/s-article-3.png
 ---
 
 ## Overview
