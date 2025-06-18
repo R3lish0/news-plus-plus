@@ -75,7 +75,7 @@ export async function getStaticPaths() {
         color: white;
     }
 
-    img {
+    #img-container img {
         width: 100%;
         height: auto;
         border-radius: 7px 7px 0 0;
@@ -124,5 +124,16 @@ export async function getStaticPaths() {
         #article {
             width: 100%;
         }
+    }
+
+    /* Fix for markdown images overflowing container */
+    :global(#article img:not(#img-container img)) {
+        max-width: 100% !important;
+        width: auto !important;
+        height: auto !important;
+        display: block;
+        margin: 1rem auto;
+        box-sizing: border-box;
+        border-radius: 4px;
     }
 </style>
