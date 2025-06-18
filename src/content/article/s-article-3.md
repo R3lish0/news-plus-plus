@@ -73,9 +73,21 @@ Now is the exciting part - you can ask Claude to do anything!  For example:
 
 ![Using Claude Code](/src/assets/images/s-article-3/crafting.png)
 
-Claude will break the prompt down into tasks, and implement them one-by-one using code.  Once it appears to have finished, do these things:
+Claude will break the prompt down into tasks, and implement them one-by-one using code.
+
+It may occasionally ask you to review some code it writes or commands it wants to execute.  If you're not sure whether something is safe, be sure to **google it** or **ask claude** to explain what it's doing.
+
+Once Claude is done coding, follow these instructions to see what it made:
 
 - Type `/exit` and hit enter to leave Claude Code
 - Type or copy `python3 -m http.server` into the Linux terminal
 
-This will create a URL for the website Claude just made, probably something like `localhost:8000`.  Open chrome and paste the URL it displays to see what you made!
+This will create a URL for the website Claude just made, probably something like `localhost:8000`.
+
+![Python server](/src/assets/images/s-article-3/server.png)
+
+Open this URL in the web browser, and have fun!  Here's what Claude made on my Pixel 8a using the prompt from the screenshot above:
+
+![Cookie clicker](/src/assets/images/s-article-3/cookie.png)
+
+Thank you!  Happy crafting!
