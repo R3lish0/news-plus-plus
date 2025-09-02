@@ -8,14 +8,13 @@ main {
     min-width: 15rem;
 }
 
+
 @media (min-width: 1201px) {
     main {
         margin-top: 0;
         padding: 0;
         width: 100%;
         max-width: none;
-        height: 100vh;
-        overflow: hidden;
     }
 }
 
@@ -65,7 +64,6 @@ main {
 @media (min-width: 1201px) {
     .press-section {
         width: 70%;
-        height: 100vh;
         max-width: none;
         display: flex;
         flex-direction: column;
@@ -158,6 +156,11 @@ h1 {
 }
 
 @media (max-width: 1200px) {
+    main {
+        height: auto;
+        overflow: visible;
+    }
+
     .headers-layout {
         flex-direction: column;
         gap: 1rem;
@@ -176,11 +179,15 @@ h1 {
     .content-layout {
         flex-direction: column;
         gap: 3rem;
+        height: auto;
+        overflow: visible;
     }
     
     .press-section,
     .articles-section {
         max-width: 100%;
+        height: auto;
+        overflow: visible;
     }
     
     .articles-section {
