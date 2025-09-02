@@ -17,15 +17,13 @@ const { Content } = await article.render();
 <div >
     <div class="link-card" style="max-width:80rem; margin:auto;">
         <div style="overflow-x: hidden" class="card-container">
-            <h1 style="padding-left:1vw; margin-top:0; margin-bottom:0;">
-                {article.data.title}
-            </h1>
-            <h3 style="padding-left:1vw; margin-top:0; margin-bottom:0;">
-                Post author: {article.data.author}
-            </h3>
-            <h3 style="padding-left:1vw; margin-top:0;">
-                Date: {article.data.date}
-            </h3>
+            <div class="article-header">
+                <h2 class="article-title">{article.data.title}</h2>
+                <div class="article-meta">
+                    <span class="author">By {article.data.author}</span>
+                    <span class="date">{article.data.date}</span>
+                </div>
+            </div>
             <div id="slot">
                 <span>
                     <Content />
@@ -63,7 +61,7 @@ const { Content } = await article.render();
         width: 100%;
         text-decoration: none;
         line-height: 1.4;
-        padding: calc(1.5rem - 1px);
+        padding: 0;
         border-radius: 8px;
         color: white;
         background-color: #23262d;
@@ -104,9 +102,8 @@ const { Content } = await article.render();
     }
 
     #slot {
-        margin-left: 1.5vw;
-        margin-right: 1.5vw;
-        padding: 1rem;
+        margin: 0 1.25rem;
+        padding: 0.75rem;
         border-radius: 7px;
         background-color: #13151a;
         max-height: 40rem;
@@ -120,8 +117,7 @@ const { Content } = await article.render();
     #read-more {
         width: 30%;
         min-width: 8rem;
-        margin: auto;
-        margin-top: 3rem;
+        margin: 1.5rem auto 1rem auto;
         background-color: #13151a;
         border-radius: 8px;
     }
@@ -142,5 +138,44 @@ const { Content } = await article.render();
         margin-bottom: 2rem;
         margin-top: 0;
         color: white;
+    }
+
+    .article-header {
+        padding: 1rem 1.25rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        margin-bottom: 0.5rem;
+    }
+
+    .article-title {
+        font-size: 1.8rem;
+        font-weight: 600;
+        line-height: 1.3;
+        margin: 0 0 0.75rem 0;
+        color: white;
+    }
+
+    .article-meta {
+        display: flex;
+        gap: 1.5rem;
+        align-items: center;
+        font-size: 0.9rem;
+        color: #aaa;
+    }
+
+    .author {
+        font-weight: 500;
+    }
+
+    .date {
+        opacity: 0.8;
+    }
+
+    .article-meta::before {
+        content: '';
+        display: block;
+        width: 30px;
+        height: 2px;
+        background: linear-gradient(45deg, rgb(136, 58, 234), rgb(224, 204, 250));
+        margin-right: 0.5rem;
     }
 </style>
