@@ -26,23 +26,25 @@ const { title, img } = Astro.props;
         <meta property="og:url" content={Astro.url.href} />
     </head>
     <body>
-        <Navbar
-            title="news++"
-            authors={[
-                {
-                    name: "R3lish0",
-                    github_uri: "https://github.com/R3lish0",
-                    profile_pic_uri:
-                        "https://avatars.githubusercontent.com/u/43016438?v=4",
-                },
-                {
-                    name: "stickyfingies",
-                    github_uri: "https://github.com/stickyfingies",
-                    profile_pic_uri:
-                        "https://avatars.githubusercontent.com/u/11356884?v=4",
-                },
-            ]}
-        />
+        <div class="navbar-container">
+            <Navbar
+                title="news++"
+                authors={[
+                    {
+                        name: "R3lish0",
+                        github_uri: "https://github.com/R3lish0",
+                        profile_pic_uri:
+                            "https://avatars.githubusercontent.com/u/43016438?v=4",
+                    },
+                    {
+                        name: "stickyfingies",
+                        github_uri: "https://github.com/stickyfingies",
+                        profile_pic_uri:
+                            "https://avatars.githubusercontent.com/u/11356884?v=4",
+                    },
+                ]}
+            />
+        </div>
         <slot />
     </body>
 </html>
@@ -78,5 +80,18 @@ const { title, img } = Astro.props;
         display: flex;
         flex-direction: column;
         align-items: center;
+    }
+
+    @media (min-width: 1201px) {
+        body {
+            height: 100vh;
+            overflow: hidden;
+        }
+    }
+    
+    @media (min-width: 1201px) {
+        .navbar-container {
+            display: none;
+        }
     }
 </style>
