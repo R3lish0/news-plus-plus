@@ -1,20 +1,10 @@
 ---
 import { type CollectionEntry, getCollection } from "astro:content";
-import Layout from "../../layouts/Layout.astro";
-import Card from "../../components/Card.astro";
+import ArticleLayout from "../../layouts/ArticleLayout.astro";
 import Press from "../../components/Press.astro";
 
 // Access the props in this component
 const { article } = Astro.props as { article: CollectionEntry<"article"> };
-
-// Get all articles for the sidebar
-const allArticles = await getCollection("article");
-
-allArticles.sort((a, b) => {
-  const dateA = new Date(a.data.date).getTime();
-  const dateB = new Date(b.data.date).getTime();
-  return dateB - dateA;
-});
 
 // This function gets called at build time and generates the paths from the content folder
 export async function getStaticPaths() {
@@ -31,54 +21,16 @@ export async function getStaticPaths() {
 }
 ---
 
-<Layout title={article.data.title} img={article.data.img}>
-    <main>
-        <div class="headers-layout">
-            <h2 class="section-heading">{article.data.title}</h2>
-            <h2 class="section-heading articles-header-desktop">Latest Articles</h2>
-        </div>
-        <div class="content-layout">
-            <div class="press-section">
-                <Press article={article} />
-            </div>
-            <div class="articles-section">
-                <h2 class="section-heading articles-header-mobile">Latest Articles</h2>
-                <ul class="card-grid">
-                    {
-                        allArticles.filter(art => art.slug !== 'about').map((art) => (
-                            <Card
-                                href={`${import.meta.env.BASE_URL}posts/${art.slug}`}
-                                title={art.data.title}
-                                img={art.data.img}
-                                author={art.data.author}
-                                isActive={art.slug === article.slug}
-                            />
-                        ))
-                    }
-                </ul>
-                <div class="integrated-brand">
-                    <div class="brand-section">
-                        <a class="brand-link" href={`${import.meta.env.BASE_URL}`}>news++</a>
-                        <span class="brand-divider">•</span>
-                        <span class="brand-by">by</span>
-                    </div>
-                    <div class="author-links">
-                        <a class="author-link" href="https://github.com/R3lish0">
-                            <img class="author-avatar" alt="R3lish0" src="https://avatars.githubusercontent.com/u/43016438?v=4" />
-                            <span class="author-name">R3lish0</span>
-                        </a>
-                        <a class="author-link" href="https://github.com/stickyfingies">
-                            <img class="author-avatar" alt="stickyfingies" src="https://avatars.githubusercontent.com/u/11356884?v=4" />
-                            <span class="author-name">stickyfingies</span>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </main>
-</Layout>
+<ArticleLayout 
+    title={article.data.title} 
+    img={article.data.img}
+    pageTitle={article.data.title}
+    currentSlug={article.slug}
+>
+    <Press article={article} />
+</ArticleLayout>
+
 <style>
-    @import '../../styles/layout.css';
     @media (max-width: 1200px) {
         .headers-layout {
             display: none;
