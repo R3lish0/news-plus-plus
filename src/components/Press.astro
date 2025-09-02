@@ -133,10 +133,10 @@ const { Content } = await article.render();
         color: white;
     }
 
-    img {
-        width: 100%;
+    #slot span p img {
+        max-width: 100%;
         height: auto;
-        border-radius: 7px 7px 0 0;
+        border-radius: 7px;
     }
 
     #slot {
@@ -153,6 +153,7 @@ const { Content } = await article.render();
         flex: 1;
         display: flex;
         flex-direction: column;
+        max-width: 100%;
     }
 
     #slot::-webkit-scrollbar {
@@ -191,6 +192,7 @@ const { Content } = await article.render();
         display: block;
         line-height: inherit;
         flex: 1;
+        max-width: 100%;
     }
 
     #slot p {

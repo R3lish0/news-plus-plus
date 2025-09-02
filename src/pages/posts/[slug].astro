@@ -139,13 +139,14 @@ export async function getStaticPaths() {
     }
 
     .press-section {
-        flex: 1;
-        max-width: 50%;
+        flex: 3;
+        max-width: 70%;
+        min-width: 65%;
     }
 
     @media (min-width: 1201px) {
         .press-section {
-            width: 60%;
+            width: 70%;
             height: 100vh;
             max-width: none;
             display: flex;
@@ -155,12 +156,13 @@ export async function getStaticPaths() {
 
     .articles-section {
         flex: 1;
-        max-width: 50%;
+        max-width: 35%;
+        min-width: 30%;
     }
 
     @media (min-width: 1201px) {
         .articles-section {
-            width: 40%;
+            width: 30%;
             max-width: none;
             padding: 2rem;
             height: 100vh;
@@ -313,8 +315,8 @@ export async function getStaticPaths() {
             justify-content: center;
             position: fixed;
             bottom: 0;
-            left: 60%;
             right: 0;
+            width: 30%;
             padding: 1.5rem;
             border-top: 1px solid rgba(255, 255, 255, 0.1);
             background: rgba(19, 21, 26, 0.95);
