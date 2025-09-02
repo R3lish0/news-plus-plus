@@ -1,10 +1,43 @@
 ---
+import { getCollection } from "astro:content";
+
 interface Props {
     article: any;
 }
 
 const { article } = Astro.props;
 const { Content } = await article.render();
+
+// Get author collection and look up the author's display name
+const allAuthors = await getCollection("author");
+const authorLookup = Object.fromEntries(
+    allAuthors.map(author => [author.slug, author.data.name])
+);
+
+// Debug: log the lookup table and current author
+console.log("Author lookup:", authorLookup);
+console.log("Current article author:", article.data.author);
+
+// Function to get display name for author(s)
+function getAuthorDisplayName(authorString: string): string {
+    // Handle multiple authors separated by " & "
+    if (authorString.includes(" & ")) {
+        return authorString.split(" & ")
+            .map(author => {
+                const slug = author.toLowerCase().trim();
+                console.log(`Looking up "${slug}" -> ${authorLookup[slug] || "not found"}`);
+                return authorLookup[slug] || author.trim();
+            })
+            .join(" & ");
+    }
+    
+    // Handle single author - try to look up by slug, fallback to original
+    const slug = authorString.toLowerCase().trim();
+    console.log(`Looking up "${slug}" -> ${authorLookup[slug] || "not found"}`);
+    return authorLookup[slug] || authorString;
+}
+
+const displayAuthor = getAuthorDisplayName(article.data.author);
 ---
 
 <div >
@@ -14,7 +47,7 @@ const { Content } = await article.render();
                 <h2 class="article-title">{article.data.title}</h2>
                 <div class="article-meta">
                     <div class="latest-badge">Latest Article</div>
-                    <span class="author">By {article.data.author}</span>
+                    <span class="author">By {displayAuthor}</span>
                     <span class="date">{article.data.date}</span>
                 </div>
             </div>

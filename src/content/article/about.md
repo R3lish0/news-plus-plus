@@ -1,6 +1,6 @@
 ---
 title: About News++
-author: R3lish0 & stickyfingies
+author: Eli Newlin & Seth Traman
 date: 01/01/2024
 img: https://i.imgur.com/qFU5sBq.png
 ---
