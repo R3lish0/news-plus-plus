@@ -1,16 +1,9 @@
 ---
-import { getCollection } from "astro:content";
+interface Props {
+    article: any;
+}
 
-const allArticles = await getCollection("article");
-const mostRecentArticle = allArticles.reduce((latest, current) => {
-  const currentDate = new Date(current.data.date);
-  const latestDate = new Date(latest.data.date);
-  return currentDate > latestDate ? current : latest;
-}, allArticles[0]);
-
-
-const article = mostRecentArticle;
-
+const { article } = Astro.props;
 const { Content } = await article.render();
 ---
 
@@ -26,16 +19,10 @@ const { Content } = await article.render();
                 </div>
             </div>
             <div id="slot">
-                <div class="preview-label">Preview</div>
                 <span>
                     <Content />
                 </span>
             </div>
-            <button id="read-more">
-                <a href={`${import.meta.env.BASE_URL}posts/${article.slug}`}>
-                    Read More
-                </a>
-            </button>
         </div>
     </div>
 </div>
@@ -86,12 +73,7 @@ const { Content } = await article.render();
     /* Large screen optimizations for fullscreen/ultra-wide displays */
     @media (min-width: 1201px) and (min-height: 900px) {
         #slot {
-            max-height: 50rem;
             padding: 2.5rem;
-        }
-
-        #read-more {
-            margin: 1.5rem auto 0rem auto;
         }
 
         #slot h1, #slot h2, #slot h3, #slot h4 {
@@ -103,22 +85,14 @@ const { Content } = await article.render();
         }
 
         .card-container {
-            padding-bottom: 0 !important;
+            padding-bottom: 2rem !important;
         }
     }
 
     /* Extra large screen optimizations */
     @media (min-width: 1201px) and (min-height: 1200px) {
-        #slot {
-            max-height: 60rem;
-        }
-
-        #read-more {
-            margin: 1rem auto 0rem auto;
-        }
-
         .card-container {
-            padding-bottom: 0;
+            padding-bottom: 2rem;
         }
     }
     .card-container {
@@ -171,47 +145,52 @@ const { Content } = await article.render();
         border-radius: 12px;
         background: linear-gradient(145deg, #13151a 0%, #0f1117 100%);
         box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
-        max-height: 40rem;
-        overflow: hidden;
+        overflow-y: auto;
         line-height: 1.7;
         font-size: 1rem;
         border: 1px solid rgba(255, 255, 255, 0.05);
         position: relative;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
     }
 
-    #slot::after {
-        content: '';
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        height: 80px;
-        background: linear-gradient(transparent, #13151a 70%, #13151a);
-        pointer-events: none;
-        border-radius: 0 0 12px 12px;
+    #slot::-webkit-scrollbar {
+        width: 12px;
+        -webkit-appearance: none;
     }
 
-    .preview-label {
-        position: absolute;
-        top: 1rem;
-        right: 1rem;
-        background: rgba(136, 58, 234, 0.15);
-        color: rgba(136, 58, 234, 0.8);
-        padding: 0.4rem 0.8rem;
+    #slot::-webkit-scrollbar-track {
+        background: rgba(255, 255, 255, 0.05);
         border-radius: 6px;
-        font-size: 0.75rem;
-        font-weight: 600;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-        border: 1px solid rgba(136, 58, 234, 0.3);
-        backdrop-filter: blur(4px);
-        z-index: 1;
+        margin: 1rem 0;
     }
+
+    #slot::-webkit-scrollbar-thumb {
+        background: linear-gradient(45deg, rgb(136, 58, 234), rgb(224, 204, 250));
+        border-radius: 6px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        min-height: 30px;
+    }
+
+    #slot::-webkit-scrollbar-thumb:hover {
+        background: linear-gradient(45deg, rgb(156, 78, 254), rgb(244, 224, 255));
+        box-shadow: 0 0 8px rgba(136, 58, 234, 0.3);
+    }
+
+    /* Firefox scrollbar styling */
+    #slot {
+        scrollbar-width: thin;
+        scrollbar-color: rgb(136, 58, 234) rgba(255, 255, 255, 0.05);
+    }
+
+
 
     #slot span {
         word-wrap: break-word;
         display: block;
         line-height: inherit;
+        flex: 1;
     }
 
     #slot p {
@@ -224,42 +203,6 @@ const { Content } = await article.render();
         line-height: 1.4;
     }
 
-    #read-more {
-        width: 60%;
-        min-width: 12rem;
-        max-width: 20rem;
-        margin: 2rem auto 2rem auto;
-        background: linear-gradient(45deg, rgb(136, 58, 234), rgb(224, 204, 250));
-        border-radius: 12px;
-        border: none;
-        box-shadow: 0 4px 15px rgba(136, 58, 234, 0.3);
-        transition: all 0.3s ease;
-        cursor: pointer;
-        padding: 0;
-        height: auto;
-        display: flex;
-    }
-
-    #read-more:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 8px 25px rgba(136, 58, 234, 0.4);
-    }
-
-    #read-more > a {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        text-decoration: none;
-        color: white;
-        width: 100%;
-        padding: 1rem 2rem;
-        font-weight: 600;
-        font-size: 1.1rem;
-        letter-spacing: 0.5px;
-        border-radius: 12px;
-        min-height: 48px;
-        box-sizing: border-box;
-    }
 
 
     .press-heading {
