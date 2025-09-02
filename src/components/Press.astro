@@ -26,6 +26,7 @@ const { Content } = await article.render();
                 </div>
             </div>
             <div id="slot">
+                <div class="preview-label">Preview</div>
                 <span>
                     <Content />
                 </span>
@@ -79,6 +80,45 @@ const { Content } = await article.render();
             max-height: 100vh;
             border-radius: 0;
             margin: 0;
+        }
+    }
+
+    /* Large screen optimizations for fullscreen/ultra-wide displays */
+    @media (min-width: 1201px) and (min-height: 900px) {
+        #slot {
+            max-height: 50rem;
+            padding: 2.5rem;
+        }
+
+        #read-more {
+            margin: 1.5rem auto 0rem auto;
+        }
+
+        #slot h1, #slot h2, #slot h3, #slot h4 {
+            margin: 1.5rem 0 0.75rem 0;
+        }
+
+        #slot p {
+            margin-bottom: 1.25rem;
+        }
+
+        .card-container {
+            padding-bottom: 0 !important;
+        }
+    }
+
+    /* Extra large screen optimizations */
+    @media (min-width: 1201px) and (min-height: 1200px) {
+        #slot {
+            max-height: 60rem;
+        }
+
+        #read-more {
+            margin: 1rem auto 0rem auto;
+        }
+
+        .card-container {
+            padding-bottom: 0;
         }
     }
     .card-container {
@@ -136,6 +176,36 @@ const { Content } = await article.render();
         line-height: 1.7;
         font-size: 1rem;
         border: 1px solid rgba(255, 255, 255, 0.05);
+        position: relative;
+    }
+
+    #slot::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 80px;
+        background: linear-gradient(transparent, #13151a 70%, #13151a);
+        pointer-events: none;
+        border-radius: 0 0 12px 12px;
+    }
+
+    .preview-label {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        background: rgba(136, 58, 234, 0.15);
+        color: rgba(136, 58, 234, 0.8);
+        padding: 0.4rem 0.8rem;
+        border-radius: 6px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        border: 1px solid rgba(136, 58, 234, 0.3);
+        backdrop-filter: blur(4px);
+        z-index: 1;
     }
 
     #slot span {
