@@ -130,6 +130,7 @@ allArticles.sort((a, b) => {
         .articles-header-mobile {
             display: block;
             margin-bottom: 2rem;
+            text-align: center;
         }
         
         .content-layout {
@@ -142,9 +143,14 @@ allArticles.sort((a, b) => {
             max-width: 100%;
         }
         
+        .articles-section {
+            width: 100%;
+        }
+        
         .card-grid {
             grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
-            gap: 1.5rem;
+            gap: 2rem;
+            justify-items: center;
         }
     }
 
@@ -154,11 +160,18 @@ allArticles.sort((a, b) => {
         }
         .card-grid {
             grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
-            gap: 1.25rem;
+            gap: 1.5rem;
         }
     }
 
     @media (max-width: 600px) {
+        .card-grid {
+            grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+            gap: 1.25rem;
+        }
+    }
+
+    @media (max-width: 450px) {
         .card-grid {
             grid-template-columns: 1fr;
             justify-items: center;
