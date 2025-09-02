@@ -29,10 +29,24 @@ allArticles.sort((a, b) => {
             <h2 class="section-heading articles-header-desktop">Latest Articles</h2>
         </div>
         <div class="content-layout">
-            <div class="press-section">
-                <slot />
-            </div>
             <div class="articles-section">
+                <div class="sticky-branding">
+                    <div class="sticky-brand-section">
+                        <a class="sticky-brand-link" href={`${import.meta.env.BASE_URL}`}>news++</a>
+                        <span class="sticky-brand-divider">•</span>
+                        <span class="sticky-brand-by">by</span>
+                    </div>
+                    <div class="sticky-author-links">
+                        <a class="sticky-author-link" href="https://github.com/R3lish0">
+                            <img class="sticky-author-avatar" alt="R3lish0" src="https://avatars.githubusercontent.com/u/43016438?v=4" />
+                            <span class="sticky-author-name">R3lish0</span>
+                        </a>
+                        <a class="sticky-author-link" href="https://github.com/stickyfingies">
+                            <img class="sticky-author-avatar" alt="stickyfingies" src="https://avatars.githubusercontent.com/u/11356884?v=4" />
+                            <span class="sticky-author-name">stickyfingies</span>
+                        </a>
+                    </div>
+                </div>
                 <h2 class="section-heading articles-header-mobile">Latest Articles</h2>
                 <ul class="card-grid">
                     {
@@ -64,6 +78,9 @@ allArticles.sort((a, b) => {
                         </a>
                     </div>
                 </div>
+            </div>
+            <div class="press-section">
+                <slot />
             </div>
         </div>
     </main>

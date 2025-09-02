@@ -1,0 +1,66 @@
+
+---
+// src/components/DraggableDivider.astro
+---
+
+<div id="divider" class="divider"></div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const divider = document.getElementById('divider');
+        const pressSection = document.querySelector('.press-section');
+        const articlesSection = document.querySelector('.articles-section');
+        const integratedBrand = document.querySelector('.integrated-brand');
+
+        pressSection.style.width = '70%';
+        articlesSection.style.width = '30%';
+        integratedBrand.style.width = '30%';
+
+        divider.style.left = `${window.innerWidth * 0.7}px`;
+        divider.style.width = '20px';
+        divider.style.height = '500px';
+
+        let isDragging = false;
+
+        divider.addEventListener('mousedown', (e) => {
+            isDragging = true;
+            pressSection.style.minWidth = '0';
+            articlesSection.style.minWidth = '0';
+            pressSection.style.maxWidth = 'none';
+            articlesSection.style.maxWidth = 'none';
+            document.body.style.cursor = 'col-resize';
+            document.body.style.userSelect = 'none';
+        });
+
+        document.addEventListener('mouseup', () => {
+            isDragging = false;
+            document.body.style.cursor = 'default';
+            document.body.style.userSelect = 'auto';
+            divider.classList.remove('dragging');
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            if (!isDragging) return;
+
+            divider.classList.add('dragging');
+            
+            const pressSectionWidth = e.clientX;
+            const articlesSectionWidth = window.innerWidth - e.clientX;
+
+            if (pressSectionWidth < 300 || articlesSectionWidth < 300) return;
+
+            divider.style.left = `${e.clientX - 2}px`;
+
+            pressSection.style.width = `${pressSectionWidth}px`;
+            articlesSection.style.width = `${articlesSectionWidth}px`;
+            integratedBrand.style.width = `${articlesSectionWidth}px`;
+        });
+
+        window.addEventListener('resize', () => {
+            divider.style.left = `${window.innerWidth * 0.7}px`;
+            pressSection.style.width = '70%';
+            articlesSection.style.width = '30%';
+        integratedBrand.style.width = '30%';
+        });
+    });
+</script>

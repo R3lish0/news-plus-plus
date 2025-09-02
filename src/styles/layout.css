@@ -63,7 +63,7 @@ main {
 
 @media (min-width: 1201px) {
     .press-section {
-        width: 70%;
+        width: 60%;
         max-width: none;
         display: flex;
         flex-direction: column;
@@ -78,9 +78,9 @@ main {
 
 @media (min-width: 1201px) {
     .articles-section {
-        width: 30%;
+        width: 40%;
         max-width: none;
-        padding: 2rem;
+        padding: 0 2rem 2rem 2rem;
         height: 100vh;
         position: relative;
         overflow-y: auto;
@@ -177,7 +177,7 @@ h1 {
     }
     
     .content-layout {
-        flex-direction: column;
+        flex-direction: column-reverse;
         gap: 3rem;
         height: auto;
         overflow: visible;
@@ -240,7 +240,7 @@ h1 {
         position: fixed;
         bottom: 0;
         right: 0;
-        width: 30%;
+        width: 40%;
         padding: 1.5rem;
         border-top: 1px solid rgba(255, 255, 255, 0.1);
         background: rgba(19, 21, 26, 0.95);
@@ -334,5 +334,92 @@ h1 {
 
 .author-name {
     font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.sticky-branding {
+    display: none;
+}
+
+@media (min-width: 1201px) {
+    .sticky-branding {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: sticky;
+        top: 0;
+        left: 0;
+        z-index: 100;
+        background: rgba(19, 21, 26, 0.95);
+        backdrop-filter: blur(10px);
+        padding: 1rem 2rem;
+        margin: 0 -2rem 2rem -2rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+}
+
+.sticky-brand-section {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-size: 1.2rem;
+}
+
+.sticky-brand-link {
+    font-family: "Libre Barcode 128 Text", system-ui;
+    font-size: 2rem;
+    color: #ddd;
+    text-decoration: none;
+    font-weight: 800;
+    transition: color 0.3s ease, letter-spacing 0.3s ease;
+}
+
+.sticky-brand-link:hover {
+    color: white;
+    letter-spacing: 0.1em;
+}
+
+.sticky-brand-divider {
+    color: #666;
+    font-size: 1.2rem;
+}
+
+.sticky-brand-by {
+    color: #aaa;
+    font-size: 1rem;
+}
+
+.sticky-author-links {
+    display: flex;
+    gap: 1.5rem;
+}
+
+.sticky-author-link {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+    color: white;
+    transition: transform 0.2s ease;
+}
+
+.sticky-author-link:hover {
+    transform: translateY(-1px);
+}
+
+.sticky-author-avatar {
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    transition: border-color 0.2s ease;
+}
+
+.sticky-author-link:hover .sticky-author-avatar {
+    border-color: white;
+}
+
+.sticky-author-name {
+    font-size: 0.8rem;
     font-weight: 500;
 }
