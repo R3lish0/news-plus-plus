@@ -56,3 +56,40 @@ allArticles.sort((a, b) => {
 <style>
     @import '../styles/layout.css';
 </style>
+
+<script>
+    function updateScrollGradients() {
+        const cardGrid = document.querySelector('.component-card-grid');
+        const sidebarContent = document.querySelector('.sidebar-content');
+        
+        if (!cardGrid || !sidebarContent) return;
+        
+        const { scrollLeft, scrollWidth, clientWidth } = cardGrid;
+        
+        // Show left gradient if not at the beginning
+        if (scrollLeft > 0) {
+            sidebarContent.classList.add('show-left-gradient');
+        } else {
+            sidebarContent.classList.remove('show-left-gradient');
+        }
+        
+        // Show right gradient if not at the end
+        if (scrollLeft < scrollWidth - clientWidth) {
+            sidebarContent.classList.add('show-right-gradient');
+        } else {
+            sidebarContent.classList.remove('show-right-gradient');
+        }
+    }
+    
+    document.addEventListener('DOMContentLoaded', () => {
+        const cardGrid = document.querySelector('.component-card-grid');
+        
+        if (cardGrid) {
+            // Initial state
+            updateScrollGradients();
+            
+            // Update on scroll
+            cardGrid.addEventListener('scroll', updateScrollGradients);
+        }
+    });
+</script>
