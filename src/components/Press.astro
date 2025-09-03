@@ -9,40 +9,60 @@ const { Content } = await article.render();
 
 <article class="component-article-card">
     <div class="article-content">
-        <header class="article-header">
-            <h1 class="article-title">{article.data.title}</h1>
-            <div class="article-meta">
-                <span class="article-author">By {article.data.author}</span>
-                <time class="article-date" datetime={article.data.date}>{article.data.date}</time>
-            </div>
-        </header>
+        <div class="article-hero">
+            <img src={article.data.img} alt={article.data.title} class="article-cover" />
+        </div>
         
-        <div class="article-text">
-            <Content />
+        <div class="article-body">
+            <header class="article-header">
+                <h1 class="article-title">{article.data.title}</h1>
+                <div class="article-meta">
+                    <span class="article-author">By {article.data.author}</span>
+                    <time class="article-date" datetime={article.data.date}>{article.data.date}</time>
+                </div>
+            </header>
+            
+            <div class="article-text">
+                <Content />
+            </div>
         </div>
     </div>
 </article>
 
 <style>
-/* Clean editorial layout for article content */
+/* Clean editorial layout with full-width hero */
 .component-article-card {
-    display: flex;
-    flex-direction: column;
-    background: #1a1d23;
     width: 100%;
     height: 100%;
-    position: relative;
-    max-width: 80rem;
-    margin: auto;
+    background: #1a1d23;
 }
 
 .article-content {
-    padding: 4rem;
+    height: 100%;
+    overflow-y: auto;
+    background: #1a1d23;
+    padding: 0;
+}
+
+.article-hero {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.article-cover {
+    width: 100%;
+    height: auto;
+    display: block;
+    margin-top: 0;
+}
+
+.article-body {
+    padding: 1rem 4rem 4rem 4rem;
     background: #1a1d23;
     line-height: 1.8;
     font-size: 1.125rem;
     color: #e5e7eb;
-    flex: 1;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', system-ui, sans-serif;
 }
 
@@ -102,7 +122,7 @@ const { Content } = await article.render();
 .article-content h3 { font-size: 1.5rem; }
 .article-content h4 { font-size: 1.25rem; }
 
-.article-content img {
+.article-text img {
     max-width: 100%;
     height: auto;
     border-radius: 8px;
@@ -153,13 +173,10 @@ const { Content } = await article.render();
 @media (min-width: 1201px) {
     .component-article-card {
         height: 100vh;
-        display: block;
-        background: #1a1d23;
     }
 
     .article-content {
         height: 100vh;
-        overflow-y: auto;
         scrollbar-width: thin;
         scrollbar-color: #6366f1 #374151;
     }
@@ -185,17 +202,13 @@ const { Content } = await article.render();
 
 /* Mobile responsive */
 @media (max-width: 1200px) {
-    .article-header {
+    .article-body {
         padding: 2rem;
+        font-size: 1.0625rem;
     }
     
     .article-title {
         font-size: 2.25rem;
-    }
-    
-    .article-content {
-        padding: 2rem;
-        font-size: 1.0625rem;
     }
 }
 </style>
