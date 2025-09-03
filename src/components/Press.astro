@@ -27,11 +27,13 @@ const isCombinedAuthors = article.data.author === "Eli Newlin & Seth Traman";
         <div class="article-hero">
             <img src={article.data.img} alt={article.data.title} class="article-cover" />
             <div class="article-overlay">
-                <h1 class="article-title">{article.data.title}</h1>
-                <div class="article-meta">
+                <h1 class="article-title">
+                    {article.data.title}
                     {isNewest && (
-                        <div class="newest-badge">Newest Article</div>
+                        <span class="newest-badge">Latest</span>
                     )}
+                </h1>
+                <div class="article-meta">
                     <div class="article-author">
                         {isCombinedAuthors ? (
                             <div class="author-pics-combined">
@@ -118,8 +120,9 @@ const isCombinedAuthors = article.data.author === "Eli Newlin & Seth Traman";
     margin: 0 0 1rem 0;
     color: #ffffff;
     letter-spacing: -0.03em;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', system-ui, sans-serif;
     text-shadow: 0 2px 12px rgba(0,0,0,0.9), 0 1px 4px rgba(0,0,0,0.8);
+    text-align: left;
 }
 
 .article-overlay .article-meta {
@@ -157,17 +160,22 @@ const isCombinedAuthors = article.data.author === "Eli Newlin & Seth Traman";
 }
 
 .newest-badge {
+    display: inline-block;
     background: linear-gradient(135deg, rgb(136, 58, 234), rgb(224, 204, 250));
     color: white;
-    font-size: 0.8rem;
+    font-size: 0.4em;
     font-weight: 700;
-    padding: 0.5rem 1rem;
-    border-radius: 20px;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
+    letter-spacing: 0.025em;
     box-shadow: 0 4px 12px rgba(136, 58, 234, 0.4);
-    text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+    text-shadow: 0 1px 2px rgba(0,0,0,0.15);
     white-space: nowrap;
+    line-height: 1.2;
+    vertical-align: middle;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', system-ui, sans-serif;
+    word-spacing: normal;
 }
 
 .article-overlay .article-date {
@@ -283,6 +291,72 @@ const isCombinedAuthors = article.data.author === "Eli Newlin & Seth Traman";
     
     .article-title {
         font-size: 2.25rem;
+    }
+    
+    .article-cover {
+        max-height: 65vh;
+        object-position: center center;
+    }
+    
+    .article-overlay {
+        padding: 2.5rem 3rem 2rem 3rem;
+    }
+}
+
+@media (max-width: 900px) {
+    .article-overlay .article-title {
+        font-size: 2.5rem;
+    }
+    
+    .article-overlay {
+        padding: 2rem 2.5rem 1.5rem 2.5rem;
+    }
+    
+    .article-overlay .article-meta {
+        gap: 1.25rem;
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 600px) {
+    .article-overlay .article-title {
+        font-size: 1.75rem;
+    }
+    
+    .article-overlay {
+        padding: 1.5rem 2rem 1rem 2rem;
+    }
+    
+    .article-overlay .article-meta {
+        justify-content: space-between;
+        align-items: center;
+        gap: 0.75rem;
+    }
+    
+    /* Author stays on left, date gets pushed to right on same line */
+    .article-overlay .article-author {
+        flex: 1;
+    }
+    
+    .article-overlay .article-date {
+        flex-shrink: 0;
+    }
+    
+}
+
+@media (max-width: 400px) {
+    .article-overlay .article-title {
+        font-size: 1.5rem;
+        line-height: 1.2;
+    }
+    
+    .article-overlay {
+        padding: 1rem 1.5rem 0.75rem 1.5rem;
+    }
+    
+    .newest-badge {
+        font-size: 0.5rem;
+        padding: 0.25rem 0.5rem;
     }
 }
 </style>

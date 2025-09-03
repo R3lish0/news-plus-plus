@@ -186,6 +186,7 @@
     
     .sidebar-content {
         position: relative;
+        padding-bottom: 0;
     }
     
     .sidebar-content::before,
