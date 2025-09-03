@@ -1,9 +1,10 @@
 ---
 interface Props {
     article: any;
+    isNewest?: boolean;
 }
 
-const { article } = Astro.props;
+const { article, isNewest = false } = Astro.props;
 const { Content } = await article.render();
 
 const authors = [
@@ -28,6 +29,9 @@ const isCombinedAuthors = article.data.author === "Eli Newlin & Seth Traman";
             <div class="article-overlay">
                 <h1 class="article-title">{article.data.title}</h1>
                 <div class="article-meta">
+                    {isNewest && (
+                        <div class="newest-badge">Newest Article</div>
+                    )}
                     <div class="article-author">
                         {isCombinedAuthors ? (
                             <div class="author-pics-combined">
@@ -150,6 +154,20 @@ const isCombinedAuthors = article.data.author === "Eli Newlin & Seth Traman";
 .article-overlay .author-pics-combined .author-profile-pic {
     width: 1.75rem;
     height: 1.75rem;
+}
+
+.newest-badge {
+    background: linear-gradient(135deg, rgb(136, 58, 234), rgb(224, 204, 250));
+    color: white;
+    font-size: 0.8rem;
+    font-weight: 700;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 12px rgba(136, 58, 234, 0.4);
+    text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+    white-space: nowrap;
 }
 
 .article-overlay .article-date {

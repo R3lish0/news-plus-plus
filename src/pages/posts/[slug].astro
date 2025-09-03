@@ -6,6 +6,20 @@ import Press from "../../components/Press.astro";
 // Access the props in this component
 const { article } = Astro.props as { article: CollectionEntry<"article"> };
 
+// Get all articles to determine the newest one
+const allArticles = await getCollection("article");
+
+// Find the newest article by date
+const newestArticle = allArticles
+    .filter(a => a.slug !== 'about') // Exclude about page
+    .sort((a, b) => {
+        const dateA = new Date(a.data.date).getTime();
+        const dateB = new Date(b.data.date).getTime();
+        return dateB - dateA;
+    })[0];
+
+const isNewest = article.slug === newestArticle?.slug;
+
 // This function gets called at build time and generates the paths from the content folder
 export async function getStaticPaths() {
     // Define the colection you are creating pages for
@@ -27,7 +41,7 @@ export async function getStaticPaths() {
     pageTitle={article.data.title}
     currentSlug={article.slug}
 >
-    <Press article={article} />
+    <Press article={article} isNewest={isNewest} />
 </ArticleLayout>
 
 <style>
