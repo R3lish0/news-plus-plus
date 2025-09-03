@@ -14,9 +14,9 @@ const { variant = 'mobile', showLatestArticles = true } = Astro.props;
             <span class="latest-articles-text" id="latest-articles-text">Latest Articles</span>
         )}
         {variant === 'mobile' && (
-            <a class="scroll-link" href="#article-grid">
+            <a class="scroll-link" id="scroll-to-top">
                 <svg class="scroll-arrow" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M7 10L12 15L17 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M7 15L12 10L17 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
             </a>
         )}
@@ -226,3 +226,15 @@ const { variant = 'mobile', showLatestArticles = true } = Astro.props;
         }
     }
 </style>
+
+<script>
+    const scrollToTop = document.getElementById('scroll-to-top');
+    if (scrollToTop) {
+        scrollToTop.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    }
+</script>
