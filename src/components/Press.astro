@@ -11,17 +11,16 @@ const { Content } = await article.render();
     <div class="article-content">
         <div class="article-hero">
             <img src={article.data.img} alt={article.data.title} class="article-cover" />
-        </div>
-        
-        <div class="article-body">
-            <header class="article-header">
+            <div class="article-overlay">
                 <h1 class="article-title">{article.data.title}</h1>
                 <div class="article-meta">
                     <span class="article-author">By {article.data.author}</span>
                     <time class="article-date" datetime={article.data.date}>{article.data.date}</time>
                 </div>
-            </header>
-            
+            </div>
+        </div>
+        
+        <div class="article-body">
             <div class="article-text">
                 <Content />
             </div>
@@ -48,6 +47,7 @@ const { Content } = await article.render();
     width: 100%;
     margin: 0;
     padding: 0;
+    position: relative;
 }
 
 .article-cover {
@@ -55,10 +55,23 @@ const { Content } = await article.render();
     height: auto;
     display: block;
     margin-top: 0;
+    max-height: 61.8vh;
+    object-fit: cover;
+}
+
+.article-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.6) 50%, rgba(0,0,0,0.2) 80%, transparent 100%);
+    padding: 3rem 4rem 2rem 4rem;
+    color: white;
+    backdrop-filter: blur(1px);
 }
 
 .article-body {
-    padding: 1rem 4rem 4rem 4rem;
+    padding: 4rem;
     background: #1a1d23;
     line-height: 1.8;
     font-size: 1.125rem;
@@ -66,38 +79,34 @@ const { Content } = await article.render();
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', system-ui, sans-serif;
 }
 
-.article-header {
-    margin-bottom: 3rem;
-    padding-bottom: 2rem;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-}
 
-
-.article-title {
+.article-overlay .article-title {
     font-size: 3rem;
     font-weight: 800;
     line-height: 1.1;
-    margin: 0 0 1.5rem 0;
+    margin: 0 0 1rem 0;
     color: #ffffff;
     letter-spacing: -0.03em;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    text-shadow: 0 2px 12px rgba(0,0,0,0.9), 0 1px 4px rgba(0,0,0,0.8);
 }
 
-.article-meta {
+.article-overlay .article-meta {
     display: flex;
     gap: 2rem;
     align-items: center;
-    font-size: 0.95rem;
-    color: #9ca3af;
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.9);
     font-weight: 500;
+    text-shadow: 0 1px 4px rgba(0,0,0,0.8);
 }
 
-.article-author {
-    color: #e5e7eb;
+.article-overlay .article-author {
+    color: #ffffff;
 }
 
-.article-date {
-    color: #9ca3af;
+.article-overlay .article-date {
+    color: rgba(255, 255, 255, 0.8);
 }
 
 .article-content p {
