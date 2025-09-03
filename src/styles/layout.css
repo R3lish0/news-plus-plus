@@ -198,8 +198,8 @@
     .sidebar-content::after {
         content: '';
         position: absolute;
-        top: var(--grid-padding-top);
-        height: var(--grid-height);
+        top: calc(var(--grid-padding-top) - 4px);
+        height: calc(var(--grid-height) + 8px);
         width: 3rem;
         z-index: 10;
         pointer-events: none;
