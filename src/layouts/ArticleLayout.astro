@@ -29,7 +29,6 @@ allArticles.sort((a, b) => {
             <aside class="layout-sidebar" id="article-grid">
                 <SiteHeader variant="desktop-sticky" />
                 <nav class="sidebar-content">
-                    <h2 class="content-heading content-heading--mobile">Latest Articles</h2>
                     <ul class="component-card-grid">
                         {
                             allArticles.filter(article => article.slug !== 'about').map((article) => (
@@ -81,6 +80,20 @@ allArticles.sort((a, b) => {
         }
     }
     
+    function updateLatestArticlesVisibility() {
+        const latestArticlesText = document.getElementById('latest-articles-text');
+        if (!latestArticlesText) return;
+        
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        
+        // Hide "Latest Articles" text when scrolling down past 200px
+        if (scrollTop > 200) {
+            latestArticlesText.style.opacity = '0';
+        } else {
+            latestArticlesText.style.opacity = '1';
+        }
+    }
+    
     document.addEventListener('DOMContentLoaded', () => {
         const cardGrid = document.querySelector('.component-card-grid');
         
@@ -90,6 +103,12 @@ allArticles.sort((a, b) => {
             
             // Update on scroll
             cardGrid.addEventListener('scroll', updateScrollGradients);
+        }
+        
+        // Add scroll listener for latest articles text visibility (mobile only)
+        if (window.innerWidth <= 1200) {
+            window.addEventListener('scroll', updateLatestArticlesVisibility);
+            updateLatestArticlesVisibility(); // Initial check
         }
     });
 </script>

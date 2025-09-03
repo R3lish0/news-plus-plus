@@ -1,14 +1,18 @@
 ---
 interface Props {
     variant?: 'mobile' | 'desktop-sticky';
+    showLatestArticles?: boolean;
 }
 
-const { variant = 'mobile' } = Astro.props;
+const { variant = 'mobile', showLatestArticles = true } = Astro.props;
 ---
 
 <header class={`site-header site-header--${variant}`}>
     <div class="header-content">
         <a class="brand-link" href={`${import.meta.env.BASE_URL}`}>news++</a>
+        {variant === 'mobile' && showLatestArticles && (
+            <span class="latest-articles-text" id="latest-articles-text">Latest Articles</span>
+        )}
         {variant === 'mobile' && (
             <a class="scroll-link" href="#article-grid">
                 <svg class="scroll-arrow" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -39,14 +43,17 @@ const { variant = 'mobile' } = Astro.props;
 
     .site-header--mobile .header-content {
         display: flex;
-        justify-content: center;
+        justify-content: space-between;
         align-items: center;
-        width: 100%;
+        width: 95%;
+        max-width: 120rem;
+        margin: 0 auto;
         position: relative;
+        padding: 0 4rem;
     }
 
     .site-header--mobile .brand-link {
-        font-size: 8rem;
+        font-size: 6rem;
         color: #ddd;
         text-decoration: none;
         letter-spacing: normal;
@@ -54,6 +61,7 @@ const { variant = 'mobile' } = Astro.props;
         white-space: nowrap;
         transition: letter-spacing 1s ease-in-out, color 1s ease-in-out;
         font-family: "Libre Barcode 128 Text", system-ui;
+        flex-shrink: 0;
     }
 
     .site-header--mobile .brand-link:hover {
@@ -61,11 +69,19 @@ const { variant = 'mobile' } = Astro.props;
         letter-spacing: 0.2em;
     }
 
+    .latest-articles-text {
+        font-size: 2rem;
+        font-weight: 700;
+        color: white;
+        margin-left: 2rem;
+        flex: 1;
+        transition: opacity 0.3s ease-in-out;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
     .scroll-link {
-        position: absolute;
-        right: 2rem;
-        top: 50%;
-        transform: translateY(-50%);
         display: flex;
         align-items: center;
         justify-content: center;
@@ -78,13 +94,14 @@ const { variant = 'mobile' } = Astro.props;
         text-decoration: none;
         transition: all 0.3s ease;
         backdrop-filter: blur(10px);
+        flex-shrink: 0;
     }
 
     .scroll-link:hover {
         background: rgba(136, 58, 234, 0.4);
         border-color: rgba(136, 58, 234, 0.8);
         color: white;
-        transform: translateY(-50%) translateY(-2px);
+        transform: translateY(-2px);
     }
 
     .scroll-arrow {
@@ -115,7 +132,7 @@ const { variant = 'mobile' } = Astro.props;
         display: flex;
         justify-content: center;
         align-items: center;
-        padding: 0 2rem;
+        padding: 0 4rem;
     }
 
     .site-header--desktop-sticky .brand-link {
@@ -154,18 +171,26 @@ const { variant = 'mobile' } = Astro.props;
         }
         
         .site-header--mobile .brand-link {
-            font-size: 6rem;
+            font-size: 5rem;
+        }
+        
+        .latest-articles-text {
+            font-size: 2rem;
         }
     }
 
     /* Mobile responsive adjustments */
     @media (max-width: 900px) {
         .site-header--mobile .brand-link {
-            font-size: 5rem;
+            font-size: 4rem;
+        }
+        
+        .latest-articles-text {
+            font-size: 1.8rem;
+            margin-left: 1.5rem;
         }
         
         .scroll-link {
-            right: 1.5rem;
             width: 2.5rem;
             height: 2.5rem;
         }
@@ -178,11 +203,15 @@ const { variant = 'mobile' } = Astro.props;
 
     @media (max-width: 600px) {
         .site-header--mobile .brand-link {
-            font-size: 3.5rem;
+            font-size: 3rem;
+        }
+        
+        .latest-articles-text {
+            font-size: 1.5rem;
+            margin-left: 1rem;
         }
         
         .scroll-link {
-            right: 1rem;
             width: 2rem;
             height: 2rem;
         }
@@ -190,6 +219,10 @@ const { variant = 'mobile' } = Astro.props;
         .scroll-arrow {
             width: 1rem;
             height: 1rem;
+        }
+        
+        .site-header--mobile .header-content {
+            padding: 0 4rem;
         }
     }
 </style>
