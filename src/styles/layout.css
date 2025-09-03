@@ -177,8 +177,10 @@
         overflow-x: auto;
         overflow-y: hidden;
         height: 22rem;
-        padding: 1rem 0;
+        padding: 1rem 2rem;
         scroll-snap-type: x mandatory;
+        margin: 0 -2rem;
+        width: calc(100% + 4rem);
     }
     
     .sidebar-content {
@@ -189,7 +191,7 @@
     .sidebar-content::after {
         content: '';
         position: absolute;
-        top: 4rem;
+        top: 1rem;
         height: 22rem;
         width: 3rem;
         z-index: 10;
@@ -207,12 +209,12 @@
     }
     
     .sidebar-content::before {
-        left: 2rem;
+        left: 0;
         background: linear-gradient(to right, #13151a, transparent);
     }
     
     .sidebar-content::after {
-        right: 2rem;
+        right: 0;
         background: linear-gradient(to left, #13151a, transparent);
     }
 
