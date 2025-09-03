@@ -1,0 +1,256 @@
+---
+interface Props {
+    variant?: 'mobile' | 'desktop-sticky';
+}
+
+const { variant = 'mobile' } = Astro.props;
+
+const authors = [
+    {
+        name: "R3lish0",
+        github_uri: "https://github.com/R3lish0",
+        profile_pic_uri: "https://avatars.githubusercontent.com/u/43016438?v=4",
+    },
+    {
+        name: "stickyfingies",
+        github_uri: "https://github.com/stickyfingies",
+        profile_pic_uri: "https://avatars.githubusercontent.com/u/11356884?v=4",
+    },
+];
+---
+
+<header class={`site-header site-header--${variant}`}>
+    <div class="header-content">
+        <div class="brand-section">
+            <a class="brand-link" href={`${import.meta.env.BASE_URL}`}>news++</a>
+            <span class="brand-divider">•</span>
+            <span class="brand-by">by</span>
+        </div>
+        <div class="author-links">
+            {authors.map((author) => (
+                <a class="author-link" href={author.github_uri}>
+                    <img class="author-avatar" alt={author.name} src={author.profile_pic_uri} />
+                    <span class="author-name">{author.name}</span>
+                </a>
+            ))}
+        </div>
+    </div>
+</header>
+
+<style>
+    @import url("https://fonts.googleapis.com/css2?family=Libre+Barcode+128+Text&display=swap");
+
+    .site-header {
+        width: 100%;
+        color: white;
+    }
+
+    /* Mobile Header Styles */
+    .site-header--mobile {
+        padding: 1rem 0;
+        margin-top: 1rem;
+        border-radius: 6px;
+        display: flex;
+        justify-content: center;
+    }
+
+    .site-header--mobile .header-content {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+        align-items: center;
+        flex-wrap: nowrap;
+        font-weight: 400;
+    }
+
+    .site-header--mobile .brand-link {
+        font-size: 5rem;
+        color: #ddd;
+        text-decoration: none;
+        letter-spacing: normal;
+        font-weight: 800;
+        white-space: nowrap;
+        transition: letter-spacing 1s ease-in-out, color 1s ease-in-out;
+        font-family: "Libre Barcode 128 Text", system-ui;
+    }
+
+    .site-header--mobile .brand-link:hover {
+        color: white;
+        letter-spacing: 0.2em;
+    }
+
+    .site-header--mobile .brand-divider {
+        color: #aaa;
+        font-size: 30px;
+        padding-inline: 2rem;
+        visibility: hidden;
+    }
+
+    .site-header--mobile .brand-by {
+        color: #aaa;
+        font-size: 30px;
+        padding-inline: 2rem;
+        visibility: hidden;
+    }
+
+    @media only screen and (min-width: 601px) {
+        .site-header--mobile .brand-divider,
+        .site-header--mobile .brand-by {
+            visibility: visible;
+        }
+    }
+
+    .site-header--mobile .author-links {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-evenly;
+    }
+
+    .site-header--mobile .author-link {
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        align-items: center;
+        text-decoration: none;
+        color: white;
+        transition: margin 0.3s ease-in-out;
+    }
+
+    .site-header--mobile .author-avatar {
+        border-radius: 100%;
+        width: 4rem;
+        max-width: 5rem;
+        height: auto;
+        border: 5px solid black;
+        transition: width 0.3s ease-in-out, height 0.3s ease-in-out, border 0.3s ease-in-out;
+    }
+
+    .site-header--mobile .author-link:hover .author-avatar {
+        width: 20vw;
+        border: 5px solid white;
+    }
+
+    .site-header--mobile .author-name {
+        font-size: 1rem;
+        max-width: 5rem;
+        text-align: center;
+        font-weight: 400;
+        margin-top: -1rem;
+        transition: font-size 0.3s ease-in-out, font-weight 0.3s ease-in-out;
+    }
+
+    .site-header--mobile .author-link:hover .author-name {
+        font-weight: 800;
+    }
+
+    /* Desktop Sticky Header Styles */
+    .site-header--desktop-sticky {
+        position: sticky;
+        top: 0;
+        left: 0;
+        z-index: 100;
+        background: rgba(19, 21, 26, 0.95);
+        backdrop-filter: blur(10px);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        display: none;
+    }
+
+    @media (min-width: 1201px) {
+        .site-header--desktop-sticky {
+            display: block;
+        }
+    }
+
+    .site-header--desktop-sticky .header-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem 2rem;
+    }
+
+    .site-header--desktop-sticky .brand-section {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        font-size: 1.2rem;
+    }
+
+    .site-header--desktop-sticky .brand-link {
+        font-family: "Libre Barcode 128 Text", system-ui;
+        font-size: 2rem;
+        color: #ddd;
+        text-decoration: none;
+        font-weight: 800;
+        transition: color 0.3s ease, letter-spacing 0.3s ease;
+    }
+
+    .site-header--desktop-sticky .brand-link:hover {
+        color: white;
+        letter-spacing: 0.1em;
+    }
+
+    .site-header--desktop-sticky .brand-divider {
+        color: #666;
+        font-size: 1.2rem;
+    }
+
+    .site-header--desktop-sticky .brand-by {
+        color: #aaa;
+        font-size: 1rem;
+    }
+
+    .site-header--desktop-sticky .author-links {
+        display: flex;
+        gap: 1.5rem;
+    }
+
+    .site-header--desktop-sticky .author-link {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        text-decoration: none;
+        color: white;
+        transition: transform 0.2s ease;
+    }
+
+    .site-header--desktop-sticky .author-link:hover {
+        transform: translateY(-1px);
+    }
+
+    .site-header--desktop-sticky .author-avatar {
+        width: 1.5rem;
+        height: 1.5rem;
+        border-radius: 50%;
+        border: 2px solid rgba(255, 255, 255, 0.2);
+        transition: border-color 0.2s ease;
+    }
+
+    .site-header--desktop-sticky .author-link:hover .author-avatar {
+        border-color: white;
+    }
+
+    .site-header--desktop-sticky .author-name {
+        font-size: 0.8rem;
+        font-weight: 500;
+    }
+
+    /* Hide mobile version on desktop */
+    @media (min-width: 1201px) {
+        .site-header--mobile {
+            display: none;
+        }
+    }
+
+    /* Mobile responsive adjustments */
+    @media (max-width: 900px) {
+        .site-header--mobile {
+            flex-direction: column;
+            width: 100%;
+        }
+        
+        .site-header--mobile .author-links {
+            width: 80%;
+        }
+    }
+</style>

@@ -1,5 +1,5 @@
 ---
-import Navbar from "../components/Navbar.astro";
+import SiteHeader from "../components/SiteHeader.astro";
 
 interface Props {
     title: string;
@@ -13,39 +13,22 @@ const { title, img } = Astro.props;
 <html lang="en">
     <head>
         <meta charset="UTF-8" />
-
         <meta name="viewport" content="width=device-width" />
         <link rel="icon" type="image/png" href="https://i.imgur.com/qFU5sBq.png" />
-	<link rel="preconnect" href="https://fonts.googleapis.com">
-	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
         <title>{title}</title>
         <meta property="og:title" content={title} />
         <meta property="og:image" content={img} />
         <meta property="og:description" content="Read article on News++">
         <meta property="og:url" content={Astro.url.href} />
     </head>
-    <body>
-        <div class="navbar-container">
-            <Navbar
-                title="news++"
-                authors={[
-                    {
-                        name: "R3lish0",
-                        github_uri: "https://github.com/R3lish0",
-                        profile_pic_uri:
-                            "https://avatars.githubusercontent.com/u/43016438?v=4",
-                    },
-                    {
-                        name: "stickyfingies",
-                        github_uri: "https://github.com/stickyfingies",
-                        profile_pic_uri:
-                            "https://avatars.githubusercontent.com/u/11356884?v=4",
-                    },
-                ]}
-            />
-        </div>
-        <slot />
+    <body class="page-body">
+        <SiteHeader variant="mobile" />
+        <main class="page-main">
+            <slot />
+        </main>
     </body>
 </html>
 <style is:global>
@@ -76,22 +59,24 @@ const { title, img } = Astro.props;
             Courier New,
             monospace;
     }
-    body {
+    .page-body {
         display: flex;
         flex-direction: column;
         align-items: center;
+        min-height: 100vh;
     }
 
     @media (min-width: 1201px) {
-        body {
+        .page-body {
             height: 100vh;
             overflow: hidden;
         }
     }
     
-    @media (min-width: 1201px) {
-        .navbar-container {
-            display: none;
-        }
+    .page-main {
+        width: 100%;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
     }
 </style>

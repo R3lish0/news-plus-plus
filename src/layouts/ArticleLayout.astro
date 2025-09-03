@@ -2,6 +2,7 @@
 import { getCollection } from "astro:content";
 import Layout from "./Layout.astro";
 import Card from "../components/Card.astro";
+import SiteHeader from "../components/SiteHeader.astro";
 
 interface Props {
     title: string;
@@ -23,67 +24,38 @@ allArticles.sort((a, b) => {
 ---
 
 <Layout title={title} img={img}>
-    <main>
-        <div class="headers-layout">
-            <h2 class="section-heading">{pageTitle}</h2>
-            <h2 class="section-heading articles-header-desktop">Latest Articles</h2>
-        </div>
-        <div class="content-layout">
-            <div class="articles-section">
-                <div class="sticky-branding">
-                    <div class="sticky-brand-section">
-                        <a class="sticky-brand-link" href={`${import.meta.env.BASE_URL}`}>news++</a>
-                        <span class="sticky-brand-divider">•</span>
-                        <span class="sticky-brand-by">by</span>
-                    </div>
-                    <div class="sticky-author-links">
-                        <a class="sticky-author-link" href="https://github.com/R3lish0">
-                            <img class="sticky-author-avatar" alt="R3lish0" src="https://avatars.githubusercontent.com/u/43016438?v=4" />
-                            <span class="sticky-author-name">R3lish0</span>
-                        </a>
-                        <a class="sticky-author-link" href="https://github.com/stickyfingies">
-                            <img class="sticky-author-avatar" alt="stickyfingies" src="https://avatars.githubusercontent.com/u/11356884?v=4" />
-                            <span class="sticky-author-name">stickyfingies</span>
-                        </a>
-                    </div>
-                </div>
-                <h2 class="section-heading articles-header-mobile">Latest Articles</h2>
-                <ul class="card-grid">
-                    {
-                        allArticles.filter(article => article.slug !== 'about').map((article) => (
-                            <Card
-                                href={`${import.meta.env.BASE_URL}posts/${article.slug}`}
-                                title={article.data.title}
-                                img={article.data.img}
-                                author={article.data.author}
-                                isActive={currentSlug ? article.slug === currentSlug : false}
-                            />
-                        ))
-                    }
-                </ul>
-                <div class="integrated-brand">
-                    <div class="brand-section">
-                        <a class="brand-link" href={`${import.meta.env.BASE_URL}`}>news++</a>
-                        <span class="brand-divider">•</span>
-                        <span class="brand-by">by</span>
-                    </div>
-                    <div class="author-links">
-                        <a class="author-link" href="https://github.com/R3lish0">
-                            <img class="author-avatar" alt="R3lish0" src="https://avatars.githubusercontent.com/u/43016438?v=4" />
-                            <span class="author-name">R3lish0</span>
-                        </a>
-                        <a class="author-link" href="https://github.com/stickyfingies">
-                            <img class="author-avatar" alt="stickyfingies" src="https://avatars.githubusercontent.com/u/11356884?v=4" />
-                            <span class="author-name">stickyfingies</span>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="press-section">
+    <div class="layout-container">
+        <header class="layout-header">
+            <h1 class="content-heading content-heading--primary">{pageTitle}</h1>
+            <h2 class="content-heading content-heading--secondary">Latest Articles</h2>
+        </header>
+        
+        <div class="layout-grid">
+            <aside class="layout-sidebar">
+                <SiteHeader variant="desktop-sticky" />
+                <nav class="sidebar-content">
+                    <h2 class="content-heading content-heading--mobile">Latest Articles</h2>
+                    <ul class="component-card-grid">
+                        {
+                            allArticles.filter(article => article.slug !== 'about').map((article) => (
+                                <Card
+                                    href={`${import.meta.env.BASE_URL}posts/${article.slug}`}
+                                    title={article.data.title}
+                                    img={article.data.img}
+                                    author={article.data.author}
+                                    isActive={currentSlug ? article.slug === currentSlug : false}
+                                />
+                            ))
+                        }
+                    </ul>
+                </nav>
+            </aside>
+            
+            <main class="layout-primary-content">
                 <slot />
-            </div>
+            </main>
         </div>
-    </main>
+    </div>
 </Layout>
 
 <style>
