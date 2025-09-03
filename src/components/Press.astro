@@ -5,6 +5,20 @@ interface Props {
 
 const { article } = Astro.props;
 const { Content } = await article.render();
+
+const authors = [
+    {
+        name: "Eli Newlin",
+        profile_pic_uri: "https://avatars.githubusercontent.com/u/43016438?v=4",
+    },
+    {
+        name: "Seth Traman",
+        profile_pic_uri: "https://avatars.githubusercontent.com/u/11356884?v=4",
+    },
+];
+
+const authorData = authors.find(a => a.name === article.data.author);
+const isCombinedAuthors = article.data.author === "Eli Newlin & Seth Traman";
 ---
 
 <article class="component-article-card">
@@ -14,7 +28,20 @@ const { Content } = await article.render();
             <div class="article-overlay">
                 <h1 class="article-title">{article.data.title}</h1>
                 <div class="article-meta">
-                    <span class="article-author">By {article.data.author}</span>
+                    <div class="article-author">
+                        {isCombinedAuthors ? (
+                            <div class="author-pics-combined">
+                                {authors.map((authorInfo) => (
+                                    <img class="author-profile-pic" src={authorInfo.profile_pic_uri} alt={authorInfo.name} />
+                                ))}
+                            </div>
+                        ) : (
+                            authorData && (
+                                <img class="author-profile-pic" src={authorData.profile_pic_uri} alt={article.data.author} />
+                            )
+                        )}
+                        <span>By {article.data.author}</span>
+                    </div>
                     <time class="article-date" datetime={article.data.date}>{article.data.date}</time>
                 </div>
             </div>
@@ -103,6 +130,26 @@ const { Content } = await article.render();
 
 .article-overlay .article-author {
     color: #ffffff;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.article-overlay .author-profile-pic {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.article-overlay .author-pics-combined {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.article-overlay .author-pics-combined .author-profile-pic {
+    width: 1.75rem;
+    height: 1.75rem;
 }
 
 .article-overlay .article-date {

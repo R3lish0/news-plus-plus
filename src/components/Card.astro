@@ -8,6 +8,20 @@ interface Props {
 }
 
 const { href, title, author, img, isActive = false } = Astro.props;
+
+const authors = [
+    {
+        name: "Eli Newlin",
+        profile_pic_uri: "https://avatars.githubusercontent.com/u/43016438?v=4",
+    },
+    {
+        name: "Seth Traman",
+        profile_pic_uri: "https://avatars.githubusercontent.com/u/11356884?v=4",
+    },
+];
+
+const authorData = authors.find(a => a.name === author);
+const isCombinedAuthors = author === "Eli Newlin & Seth Traman";
 ---
 
 <li class={`link-card ${isActive ? 'active' : ''}`}>
@@ -19,9 +33,20 @@ const { href, title, author, img, isActive = false } = Astro.props;
             <h2 class="card-title">
                 {title}
             </h2>
-            <span class="card-author">
-                By {author}
-            </span>
+            <div class="card-author">
+                {isCombinedAuthors ? (
+                    <div class="author-pics-combined">
+                        {authors.map((authorInfo) => (
+                            <img class="author-profile-pic" src={authorInfo.profile_pic_uri} alt={authorInfo.name} />
+                        ))}
+                    </div>
+                ) : (
+                    authorData && (
+                        <img class="author-profile-pic" src={authorData.profile_pic_uri} alt={author} />
+                    )
+                )}
+                <span>By {author}</span>
+            </div>
         </div>
     </a>
 </li>
@@ -118,6 +143,26 @@ const { href, title, author, img, isActive = false } = Astro.props;
         font-weight: 500;
         text-align: left;
         margin-top: auto;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .author-profile-pic {
+        width: 1.5rem;
+        height: 1.5rem;
+        border-radius: 50%;
+        border: 2px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .author-pics-combined {
+        display: flex;
+        gap: 0.25rem;
+    }
+
+    .author-pics-combined .author-profile-pic {
+        width: 1.25rem;
+        height: 1.25rem;
     }
 
     .link-card.active {
