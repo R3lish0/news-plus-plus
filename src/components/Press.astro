@@ -8,16 +8,15 @@ const { Content } = await article.render();
 ---
 
 <article class="component-article-card">
-    <header class="article-header">
-        <h1 class="article-title">{article.data.title}</h1>
-        <div class="article-meta">
-            <div class="article-badge">Latest Article</div>
-            <span class="article-author">By {article.data.author}</span>
-            <time class="article-date" datetime={article.data.date}>{article.data.date}</time>
-        </div>
-    </header>
-    
     <div class="article-content">
+        <header class="article-header">
+            <h1 class="article-title">{article.data.title}</h1>
+            <div class="article-meta">
+                <span class="article-author">By {article.data.author}</span>
+                <time class="article-date" datetime={article.data.date}>{article.data.date}</time>
+            </div>
+        </header>
+        
         <div class="article-text">
             <Content />
         </div>
@@ -25,15 +24,11 @@ const { Content } = await article.render();
 </article>
 
 <style>
-/* Base component styles */
+/* Clean editorial layout for article content */
 .component-article-card {
     display: flex;
     flex-direction: column;
-    background: linear-gradient(135deg, #23262d 0%, #1a1d23 100%);
-    border-radius: 12px;
-    box-shadow: 
-        inset 0 0 0 1px rgba(255, 255, 255, 0.1),
-        0 8px 32px rgba(0, 0, 0, 0.3);
+    background: #1a1d23;
     width: 100%;
     height: 100%;
     position: relative;
@@ -41,154 +36,166 @@ const { Content } = await article.render();
     margin: auto;
 }
 
-.component-article-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 2px;
-    background: linear-gradient(90deg, transparent, rgb(136, 58, 234), transparent);
-    border-radius: 12px 12px 0 0;
+.article-content {
+    padding: 4rem;
+    background: #1a1d23;
+    line-height: 1.8;
+    font-size: 1.125rem;
+    color: #e5e7eb;
+    flex: 1;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', system-ui, sans-serif;
 }
 
 .article-header {
-    padding: 2rem 2rem 1.5rem 2rem;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    margin-bottom: 1rem;
-    position: relative;
-    flex-shrink: 0;
+    margin-bottom: 3rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
+
 .article-title {
-    font-size: 2.2rem;
-    font-weight: 700;
-    line-height: 1.3;
+    font-size: 3rem;
+    font-weight: 800;
+    line-height: 1.1;
     margin: 0 0 1.5rem 0;
-    color: white;
-    letter-spacing: -0.02em;
+    color: #ffffff;
+    letter-spacing: -0.03em;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
 }
 
 .article-meta {
     display: flex;
-    gap: 1.5rem;
+    gap: 2rem;
     align-items: center;
-    font-size: 1rem;
-    color: #ccc;
-    margin-top: 0.5rem;
-}
-
-.article-meta::before {
-    content: '';
-    display: block;
-    width: 30px;
-    height: 2px;
-    background: linear-gradient(45deg, rgb(136, 58, 234), rgb(224, 204, 250));
-    margin-right: 0.5rem;
-}
-
-.article-author {
+    font-size: 0.95rem;
+    color: #9ca3af;
     font-weight: 500;
 }
 
+.article-author {
+    color: #e5e7eb;
+}
+
 .article-date {
-    opacity: 0.8;
-}
-
-.article-badge {
-    display: none;
-}
-
-.article-content {
-    margin: 0 2rem;
-    padding: 2rem;
-    border-radius: 12px;
-    background: linear-gradient(145deg, #13151a 0%, #0f1117 100%);
-    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
-    line-height: 1.7;
-    font-size: 1rem;
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    position: relative;
-    flex: 1;
-    max-width: 100%;
-    overflow-y: auto;
-    min-height: 0;
+    color: #9ca3af;
 }
 
 .article-content p {
-    margin-bottom: 1.5rem;
-    line-height: 1.7;
-    word-wrap: break-word;
+    margin-bottom: 1.75rem;
+    line-height: 1.8;
+    max-width: 65ch;
 }
 
-.article-content h1, 
-.article-content h2, 
-.article-content h3, 
+.article-content h1,
+.article-content h2,
+.article-content h3,
 .article-content h4 {
-    margin: 2rem 0 1rem 0;
-    line-height: 1.4;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    font-weight: 700;
+    color: #ffffff;
+    line-height: 1.3;
+    margin: 3rem 0 1.5rem 0;
 }
+
+.article-content h1 { font-size: 2.25rem; }
+.article-content h2 { font-size: 1.875rem; }
+.article-content h3 { font-size: 1.5rem; }
+.article-content h4 { font-size: 1.25rem; }
 
 .article-content img {
     max-width: 100%;
     height: auto;
-    border-radius: 7px;
-    border: 3px solid #444;
+    border-radius: 8px;
+    margin: 2rem 0;
+}
+
+.article-content ul,
+.article-content ol {
+    margin: 1.5rem 0;
+    padding-left: 2rem;
+    max-width: 65ch;
+}
+
+.article-content li {
+    margin-bottom: 0.5rem;
+}
+
+.article-content blockquote {
+    border-left: 4px solid #6366f1;
+    padding-left: 2rem;
+    margin: 2rem 0;
+    font-style: italic;
+    color: #d1d5db;
+}
+
+.article-content code {
+    background: #374151;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.9em;
+    color: #f9fafb;
+}
+
+.article-content pre {
+    background: #374151;
+    padding: 1.5rem;
+    border-radius: 8px;
+    overflow-x: auto;
+    margin: 2rem 0;
+}
+
+.article-content pre code {
+    background: none;
+    padding: 0;
 }
 
 /* Desktop styles */
 @media (min-width: 1201px) {
     .component-article-card {
-        border-radius: 0;
-        margin: 0;
         height: 100vh;
         display: block;
-    }
-
-    .article-badge {
-        display: inline-block;
-        background: linear-gradient(45deg, rgb(136, 58, 234), rgb(224, 204, 250));
-        color: white;
-        font-size: 0.75rem;
-        font-weight: 600;
-        padding: 0.4rem 0.8rem;
-        border-radius: 12px;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-        box-shadow: 0 2px 8px rgba(136, 58, 234, 0.3);
-        margin-right: 1rem;
-        vertical-align: middle;
+        background: #1a1d23;
     }
 
     .article-content {
-        height: calc(100vh - 200px);
-        overflow-y: scroll;
-        max-height: calc(100vh - 200px);
+        height: 100vh;
+        overflow-y: auto;
         scrollbar-width: thin;
-        scrollbar-color: rgb(136, 58, 234) rgba(255, 255, 255, 0.05);
+        scrollbar-color: #6366f1 #374151;
     }
 
     .article-content::-webkit-scrollbar {
-        width: 12px;
-        -webkit-appearance: none;
+        width: 8px;
     }
 
     .article-content::-webkit-scrollbar-track {
-        background: rgba(255, 255, 255, 0.05);
-        border-radius: 6px;
-        margin: 1rem 0;
+        background: #374151;
+        border-radius: 4px;
     }
 
     .article-content::-webkit-scrollbar-thumb {
-        background: linear-gradient(45deg, rgb(136, 58, 234), rgb(224, 204, 250));
-        border-radius: 6px;
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        min-height: 30px;
+        background: #6366f1;
+        border-radius: 4px;
     }
 
     .article-content::-webkit-scrollbar-thumb:hover {
-        background: linear-gradient(45deg, rgb(156, 78, 254), rgb(244, 224, 255));
-        box-shadow: 0 0 8px rgba(136, 58, 234, 0.3);
+        background: #4f46e5;
+    }
+}
+
+/* Mobile responsive */
+@media (max-width: 1200px) {
+    .article-header {
+        padding: 2rem;
+    }
+    
+    .article-title {
+        font-size: 2.25rem;
+    }
+    
+    .article-content {
+        padding: 2rem;
+        font-size: 1.0625rem;
     }
 }
 </style>

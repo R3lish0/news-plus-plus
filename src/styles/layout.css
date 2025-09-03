@@ -43,7 +43,7 @@
 @media (min-width: 1201px) {
     .layout-grid {
         display: grid;
-        grid-template-columns: 40fr 60fr;
+        grid-template-columns: 1fr 1.618fr;
         gap: 0;
         height: 100vh;
     }
