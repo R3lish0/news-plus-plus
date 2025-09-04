@@ -1,0 +1,114 @@
+---
+import { getCollection } from "astro:content";
+import Layout from "./Layout.astro";
+import Card from "../components/Card.astro";
+import SiteHeader from "../components/SiteHeader.astro";
+
+interface Props {
+    title: string;
+    pageTitle: string;
+    img: string;
+    currentSlug?: string;
+}
+
+const { title, pageTitle, img, currentSlug } = Astro.props;
+
+// Get all articles for the sidebar
+const allArticles = await getCollection("article");
+
+allArticles.sort((a, b) => {
+  const dateA = new Date(a.data.date).getTime();
+  const dateB = new Date(b.data.date).getTime();
+  return dateB - dateA;
+});
+---
+
+<Layout title={title} img={img}>
+    <div class="layout-container">
+        <div class="layout-grid">
+            <aside class="layout-sidebar" id="article-grid">
+                <SiteHeader variant="desktop-sticky" />
+                <nav class="sidebar-content">
+                    <ul class="component-card-grid">
+                        {
+                            allArticles.filter(article => article.slug !== 'about').map((article) => (
+                                <Card
+                                    href={`${import.meta.env.BASE_URL}posts/${article.slug}`}
+                                    title={article.data.title}
+                                    img={article.data.img}
+                                    author={article.data.author}
+                                    isActive={currentSlug ? article.slug === currentSlug : false}
+                                />
+                            ))
+                        }
+                    </ul>
+                </nav>
+            </aside>
+            
+            <main class="layout-primary-content">
+                <slot />
+            </main>
+        </div>
+    </div>
+</Layout>
+
+<style>
+    @import '../styles/layout.css';
+</style>
+
+<script>
+    function updateScrollGradients() {
+        const cardGrid = document.querySelector('.component-card-grid');
+        const sidebarContent = document.querySelector('.sidebar-content');
+        
+        if (!cardGrid || !sidebarContent) return;
+        
+        const { scrollLeft, scrollWidth, clientWidth } = cardGrid;
+        
+        // Show left gradient if not at the beginning
+        if (scrollLeft > 0) {
+            sidebarContent.classList.add('show-left-gradient');
+        } else {
+            sidebarContent.classList.remove('show-left-gradient');
+        }
+        
+        // Show right gradient if not at the end
+        if (scrollLeft < scrollWidth - clientWidth) {
+            sidebarContent.classList.add('show-right-gradient');
+        } else {
+            sidebarContent.classList.remove('show-right-gradient');
+        }
+    }
+    
+    function updateLatestArticlesVisibility() {
+        const latestArticlesText = document.getElementById('latest-articles-text');
+        if (!latestArticlesText) return;
+        
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        
+        // Hide "Latest Articles" text when scrolling down past 200px
+        if (scrollTop > 200) {
+            latestArticlesText.style.opacity = '0';
+        } else {
+            latestArticlesText.style.opacity = '1';
+        }
+    }
+    
+    document.addEventListener('DOMContentLoaded', () => {
+        const cardGrid = document.querySelector('.component-card-grid');
+        
+        if (cardGrid) {
+            // Initial state
+            updateScrollGradients();
+            
+            // Update on scroll
+            cardGrid.addEventListener('scroll', updateScrollGradients);
+        }
+        
+        // Add scroll listener for latest articles text visibility (mobile only)
+        if (window.innerWidth <= 1200) {
+            window.addEventListener('scroll', updateLatestArticlesVisibility);
+            updateLatestArticlesVisibility(); // Initial check
+        }
+    });
+</script>

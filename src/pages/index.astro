@@ -1,81 +1,22 @@
 ---
 import { getCollection } from "astro:content";
-import Layout from "../layouts/Layout.astro";
-import Card from "../components/Card.astro";
-import Press from "../components/Press.astro";
-
-
-
 
 const allArticles = await getCollection("article");
 
-allArticles.sort((a, b) => {
+// Filter out about page and sort by date to get the latest
+const regularArticles = allArticles.filter(article => article.slug !== 'about');
+regularArticles.sort((a, b) => {
   const dateA = new Date(a.data.date).getTime();
   const dateB = new Date(b.data.date).getTime();
   return dateB - dateA;
 });
 
+const latestArticle = regularArticles[0];
 
+if (latestArticle) {
+  return Astro.redirect(`${import.meta.env.BASE_URL}posts/${latestArticle.slug}`);
+} else {
+  // Fallback if no articles exist
+  return new Response("No articles found", { status: 404 });
+}
 ---
-
-<Layout title="News++" img="https://i.imgur.com/qFU5sBq.png">
-    <main>
-        <Press />
-        <ul class="card-grid">
-            {
-                allArticles.map((article) => (
-                    <Card
-                        href={`${import.meta.env.BASE_URL}posts/${article.slug}`}
-                        title={article.data.title}
-                        img={article.data.img}
-                        author={article.data.author}
-                    />
-                ))
-            }
-        </ul>
-    </main>
-</Layout>
-
-<style>
-    main {
-        margin: auto;
-        width: 70%;
-        color: white;
-        font-size: 20px;
-        line-height: 1.6;
-        min-width: 15rem;
-    }
-
-    h1 {
-        font-size: 4rem;
-        font-weight: 700;
-        line-height: 1;
-        text-align: center;
-        margin-bottom: 1em;
-    }
-
-    .card-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
-        gap: 5%;
-        width: 100%;
-        height: auto;
-        margin: auto;
-        padding-left: 0;
-        max-width: 80rem;
-    }
-
-    @media (max-width: 900px) {
-        main {
-            width: 100%;
-        }
-    }
-
-    @media (max-width: 700px) {
-        .card-grid {
-            grid-template-columns: 1fr;
-            justify-items: center;
-            gap: 1rem;
-        }
-    }
-</style>

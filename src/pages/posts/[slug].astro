@@ -1,14 +1,24 @@
 ---
 import { type CollectionEntry, getCollection } from "astro:content";
-import Layout from "../../layouts/Post.astro";
-
-
-//..
+import ArticleLayout from "../../layouts/ArticleLayout.astro";
+import Press from "../../components/Press.astro";
 
 // Access the props in this component
 const { article } = Astro.props as { article: CollectionEntry<"article"> };
-const { Content } = await article.render();
 
+// Get all articles to determine the newest one
+const allArticles = await getCollection("article");
+
+// Find the newest article by date
+const newestArticle = allArticles
+    .filter(a => a.slug !== 'about') // Exclude about page
+    .sort((a, b) => {
+        const dateA = new Date(a.data.date).getTime();
+        const dateB = new Date(b.data.date).getTime();
+        return dateB - dateA;
+    })[0];
+
+const isNewest = article.slug === newestArticle?.slug;
 
 // This function gets called at build time and generates the paths from the content folder
 export async function getStaticPaths() {
@@ -25,115 +35,19 @@ export async function getStaticPaths() {
 }
 ---
 
-<main>
-    <Layout title={article.data.title} img={article.data.img}>
-        <div id="article">
-            <div id="img-container">
-                <img
-                    src={article.data.img}
-                    alt="Missing Article Image"
-                    style=""
-                />
-            </div>
-            <h1 style="padding-left:1vw">{article.data.title}</h1>
-            <h2 style="padding-left:1vw">Post author: {article.data.author}</h2>
-            <h3 style="padding-left:1vw">Date: {article.data.date}</h3>
-            <div id="slot">
-                <span>
-                    <Content />
-                </span>
-            </div>
-            <div id="back">
-                <button id="go-back" style="">
-                    <a href={`${import.meta.env.BASE_URL}`}>
-                        <h3>Go Back</h3>
-                    </a>
-                </button>
-            </div>
-        </div>
-        <!-- Markdown content is injected here -->
-        <!-- ... -->
-    </Layout>
-</main>
+<ArticleLayout 
+    title={article.data.title} 
+    img={article.data.img}
+    pageTitle={article.data.title}
+    currentSlug={article.slug}
+>
+    <Press article={article} isNewest={isNewest} />
+</ArticleLayout>
+
 <style>
-    #article {
-        list-style: none;
-        background-color: #23262d;
-        background-image: none;
-        background-size: 400%;
-        border-radius: 7px;
-        background-position: 100%;
-        transition: background-position 0.6s cubic-bezier(0.22, 1, 0.36, 1);
-        box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.1);
-        width: 60%;
-        min-width: 16rem;
-        margin-top: 5rem;
-        margin-left: auto;
-        margin-right: auto;
-        padding-bottom: 1rem;
-        height: auto;
-        color: white;
-    }
-
-    #img-container img {
-        width: 100%;
-        height: auto;
-        border-radius: 7px 7px 0 0;
-    }
-
-    #slot {
-        margin-left: 1.5vw;
-        margin-right: 1.5vw;
-        padding: 1rem;
-        border-radius: 7px;
-        background-color: #13151a;
-    }
-
-    #back {
-        position: sticky;
-        bottom: 2rem;
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-        padding: 1rem 0;
-    }
-
-    #go-back {
-        width: 30%;
-        min-width: 8rem;
-        margin: auto;
-        background-color: #13151a;
-        border-radius: 8px;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-    }
-
-    #go-back > a {
-        display: flex;
-        justify-content: center;
-        text-decoration: none;
-        color: white;
-        width: 100%;
-    }
-
-    #slot span {
-        word-wrap: break-word;
-        font-size: large;
-    }
-
-    @media (max-width: 900px) {
-        #article {
-            width: 100%;
+    @media (max-width: 1200px) {
+        .headers-layout {
+            display: none;
         }
-    }
-
-    /* Fix for markdown images overflowing container */
-    :global(#article img:not(#img-container img)) {
-        max-width: 100% !important;
-        width: auto !important;
-        height: auto !important;
-        display: block;
-        margin: 1rem auto;
-        box-sizing: border-box;
-        border-radius: 4px;
     }
 </style>

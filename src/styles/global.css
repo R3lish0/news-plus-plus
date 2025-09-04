@@ -9,11 +9,17 @@
 			white 60%
 		);
 	}
-	html {
-		font-family: system-ui, sans-serif;
-		background: #13151a;
-		background-size: 224px;
-	}
+	html,
+body {
+	height: 100%;
+}
+
+html {
+	font-family: system-ui, sans-serif;
+	background: #13151a;
+	background-size: 224px;
+    scroll-behavior: smooth;
+}
 	code {
 		font-family:
 			Menlo,
