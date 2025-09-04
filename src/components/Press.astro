@@ -67,11 +67,11 @@ const isCombinedAuthors = article.data.author === "Eli Newlin & Seth Traman";
 <script>
 // Detect if first paragraph is multi-line and has no preceding header
 function setupDropCaps() {
-    const firstP = document.querySelector('.article-text p:first-of-type');
+    const firstP = document.querySelector('.article-text p:first-of-type') as HTMLElement;
     if (!firstP) return;
     
     // Check if there's a header before the first paragraph
-    const articleText = document.querySelector('.article-text');
+    const articleText = document.querySelector('.article-text') as HTMLElement;
     if (!articleText) return;
     
     // Get all elements in the article text
