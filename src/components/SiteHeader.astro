@@ -10,7 +10,7 @@ const { variant = 'mobile', showLatestArticles = true } = Astro.props;
 <header class={`site-header site-header--${variant}`}>
     <div class="header-content">
         <a class="brand-link" href={`${import.meta.env.BASE_URL}`}>
-            <img src="/src/components/images/favicon.png" alt="news++ logo" class="brand-logo" />
+            <img src="/images/favicon.png" alt="news++ logo" class="brand-logo" />
         </a>
         {variant === 'mobile' && showLatestArticles && (
             <span class="latest-articles-text" id="latest-articles-text">Latest Articles</span>
