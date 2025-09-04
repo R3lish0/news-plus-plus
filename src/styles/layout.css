@@ -99,7 +99,7 @@
     
     .layout-grid {
         flex-direction: column;
-        gap: 3rem;
+        gap: 2rem;
         height: auto;
         overflow: visible;
     }
