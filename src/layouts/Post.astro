@@ -1,5 +1,5 @@
 ---
-import Navbar from "../components/Navbar.astro";
+import SiteHeader from "../components/SiteHeader.astro";
 
 const { title, img } = Astro.props;
 ---
@@ -22,23 +22,7 @@ const { title, img } = Astro.props;
 
 
     <body>
-        <Navbar
-            title="news++"
-            authors={[
-                {
-                    name: "R3lish0",
-                    github_uri: "https://github.com/R3lish0",
-                    profile_pic_uri:
-                        "https://avatars.githubusercontent.com/u/43016438?v=4",
-                },
-                {
-                    name: "stickyfingies",
-                    github_uri: "https://github.com/stickyfingies",
-                    profile_pic_uri:
-                        "https://avatars.githubusercontent.com/u/11356884?v=4",
-                },
-            ]}
-        />
+        <SiteHeader variant="mobile" />
         <slot />
         
     </body>

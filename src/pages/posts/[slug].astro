@@ -11,7 +11,6 @@ const allArticles = await getCollection("article");
 
 // Find the newest article by date
 const newestArticle = allArticles
-    .filter(a => a.slug !== 'about') // Exclude about page
     .sort((a, b) => {
         const dateA = new Date(a.data.date).getTime();
         const dateB = new Date(b.data.date).getTime();
@@ -38,7 +37,6 @@ export async function getStaticPaths() {
 <ArticleLayout 
     title={article.data.title} 
     img={article.data.img}
-    pageTitle={article.data.title}
     currentSlug={article.slug}
 >
     <Press article={article} isNewest={isNewest} />
