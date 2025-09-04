@@ -26,7 +26,8 @@ const isCombinedAuthors = article.data.author === "Eli Newlin & Seth Traman";
     <div class="article-content">
         <div class="article-hero">
             <img src={article.data.img} alt={article.data.title} class="article-cover" />
-            <div class="article-overlay">
+            <div class="article-overlay"></div>
+            <div class="article-overlay-content">
                 <h1 class="article-title">
                     {article.data.title}
                     {isNewest && (
@@ -51,6 +52,8 @@ const isCombinedAuthors = article.data.author === "Eli Newlin & Seth Traman";
                     <time class="article-date" datetime={article.data.date}>{article.data.date}</time>
                 </div>
             </div>
+            
+            <div class="zigzag-cutter"></div>
         </div>
         
         <div class="article-body">
@@ -143,7 +146,7 @@ if (document.readyState === 'loading') {
     height: auto;
     display: block;
     margin-top: 0;
-    max-height: 61.8vh;
+    max-height: calc(61.8vh + 2rem);
     object-fit: cover;
 }
 
@@ -152,10 +155,18 @@ if (document.readyState === 'loading') {
     bottom: 0;
     left: 0;
     right: 0;
+    height: 60%;
     background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.6) 50%, rgba(0,0,0,0.2) 80%, transparent 100%);
+    backdrop-filter: blur(1px);
+}
+
+.article-overlay-content {
+    position: absolute;
+    bottom: 2rem;
+    left: 0;
+    right: 0;
     padding: 3rem 4rem 2rem 4rem;
     color: white;
-    backdrop-filter: blur(1px);
 }
 
 .article-body {
@@ -166,6 +177,7 @@ if (document.readyState === 'loading') {
     color: #e5e7eb;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', system-ui, sans-serif;
     animation: fadeInUp 0.8s ease-out;
+    margin-top: 0;
 }
 
 @keyframes fadeInUp {
@@ -180,7 +192,7 @@ if (document.readyState === 'loading') {
 }
 
 
-.article-overlay .article-title {
+.article-overlay-content .article-title {
     font-size: 3rem;
     font-weight: 800;
     line-height: 1.1;
@@ -192,7 +204,7 @@ if (document.readyState === 'loading') {
     text-align: left;
 }
 
-.article-overlay .article-meta {
+.article-overlay-content .article-meta {
     display: flex;
     gap: 2rem;
     align-items: center;
@@ -202,26 +214,26 @@ if (document.readyState === 'loading') {
     text-shadow: 0 1px 4px rgba(0,0,0,0.8);
 }
 
-.article-overlay .article-author {
+.article-overlay-content .article-author {
     color: #ffffff;
     display: flex;
     align-items: center;
     gap: 0.75rem;
 }
 
-.article-overlay .author-profile-pic {
+.article-overlay-content .author-profile-pic {
     width: 2rem;
     height: 2rem;
     border-radius: 50%;
     border: 2px solid rgba(255, 255, 255, 0.3);
 }
 
-.article-overlay .author-pics-combined {
+.article-overlay-content .author-pics-combined {
     display: flex;
     gap: 0.5rem;
 }
 
-.article-overlay .author-pics-combined .author-profile-pic {
+.article-overlay-content .author-pics-combined .author-profile-pic {
     width: 1.75rem;
     height: 1.75rem;
 }
@@ -245,9 +257,42 @@ if (document.readyState === 'loading') {
     word-spacing: normal;
 }
 
-.article-overlay .article-date {
+.article-overlay-content .article-date {
     color: rgba(255, 255, 255, 0.8);
 }
+
+/* Upward-pointing zig-zag cutter */
+.zigzag-cutter {
+    width: 100%;
+    height: 2rem;
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    background: #1a1d23;
+    clip-path: polygon(0% 100%, 6.25% 0%, 12.5% 100%, 18.75% 0%, 25% 100%, 31.25% 0%, 37.5% 100%, 43.75% 0%, 50% 100%, 56.25% 0%, 62.5% 100%, 68.75% 0%, 75% 100%, 81.25% 0%, 87.5% 100%, 93.75% 0%, 100% 100%, 100% 100%, 0% 100%);
+}
+
+/* Small mobile: 4 zigs */
+@media (max-width: 900px) {
+    .article-cover {
+        max-height: calc(65vh + 2rem);
+    }
+    .zigzag-cutter {
+        clip-path: polygon(0% 100%, 12.5% 0%, 25% 100%, 37.5% 0%, 50% 100%, 62.5% 0%, 75% 100%, 87.5% 0%, 100% 100%, 100% 100%, 0% 100%);
+    }
+}
+
+/* Tablet: 6 zigs */
+@media (min-width: 769px) and (max-width: 1200px) {
+    .article-cover {
+        max-height: calc(65vh + 2rem);
+    }
+    .zigzag-cutter {
+        clip-path: polygon(0% 100%, 8.33% 0%, 16.67% 100%, 25% 0%, 33.33% 100%, 41.67% 0%, 50% 100%, 58.33% 0%, 66.67% 100%, 75% 0%, 83.33% 100%, 91.67% 0%, 100% 100%, 100% 100%, 0% 100%);
+    }
+}
+
+/* Desktop: 8 zigs (default already set above) */
 
 :global(.article-text p) {
     margin-bottom: 1.1rem;
@@ -541,7 +586,7 @@ if (document.readyState === 'loading') {
 }
 
 @media (max-width: 900px) {
-    .article-overlay .article-title {
+    .article-overlay-content .article-title {
         font-size: 2.5rem;
     }
     
@@ -550,14 +595,14 @@ if (document.readyState === 'loading') {
         bottom: -1px;
     }
     
-    .article-overlay .article-meta {
+    .article-overlay-content .article-meta {
         gap: 1.25rem;
         font-size: 0.9rem;
     }
 }
 
 @media (max-width: 600px) {
-    .article-overlay .article-title {
+    .article-overlay-content .article-title {
         font-size: 1.75rem;
     }
     
@@ -566,25 +611,25 @@ if (document.readyState === 'loading') {
         bottom: -1px;
     }
     
-    .article-overlay .article-meta {
+    .article-overlay-content .article-meta {
         justify-content: space-between;
         align-items: center;
         gap: 0.75rem;
     }
     
     /* Author stays on left, date gets pushed to right on same line */
-    .article-overlay .article-author {
+    .article-overlay-content .article-author {
         flex: 1;
     }
     
-    .article-overlay .article-date {
+    .article-overlay-content .article-date {
         flex-shrink: 0;
     }
     
 }
 
 @media (max-width: 400px) {
-    .article-overlay .article-title {
+    .article-overlay-content .article-title {
         font-size: 1.5rem;
         line-height: 1.2;
     }
