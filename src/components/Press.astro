@@ -165,7 +165,7 @@ if (document.readyState === 'loading') {
     bottom: 2rem;
     left: 0;
     right: 0;
-    padding: 3rem 4rem 2rem 4rem;
+    padding: clamp(2rem, 4vw, 3rem) clamp(2rem, 6vw, 4rem) clamp(1.5rem, 3vw, 2rem) clamp(2rem, 6vw, 4rem);
     color: white;
 }
 
@@ -193,10 +193,10 @@ if (document.readyState === 'loading') {
 
 
 .article-overlay-content .article-title {
-    font-size: 3rem;
+    font-size: clamp(1.75rem, 5vw, 3rem);
     font-weight: 800;
     line-height: 1.1;
-    margin: 0 0 1rem 0;
+    margin: 0 0 clamp(0.5rem, 2vw, 1rem) 0;
     color: #ffffff;
     letter-spacing: -0.03em;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', system-ui, sans-serif;
@@ -206,9 +206,9 @@ if (document.readyState === 'loading') {
 
 .article-overlay-content .article-meta {
     display: flex;
-    gap: 2rem;
+    gap: clamp(1rem, 3vw, 2rem);
     align-items: center;
-    font-size: 1rem;
+    font-size: clamp(0.875rem, 2vw, 1rem);
     color: rgba(255, 255, 255, 0.9);
     font-weight: 500;
     text-shadow: 0 1px 4px rgba(0,0,0,0.8);
