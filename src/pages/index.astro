@@ -1,5 +1,7 @@
 ---
 import { getCollection } from "astro:content";
+import ArticleLayout from "../layouts/ArticleLayout.astro";
+import Press from "../components/Press.astro";
 
 const allArticles = await getCollection("article");
 
@@ -12,10 +14,15 @@ allArticles.sort((a, b) => {
 
 const latestArticle = allArticles[0];
 
-if (latestArticle) {
-  return Astro.redirect(`${import.meta.env.BASE_URL}posts/${latestArticle.slug}`);
-} else {
-  // Fallback if no articles exist
+if (!latestArticle) {
   return new Response("No articles found", { status: 404 });
 }
 ---
+
+<ArticleLayout 
+    title={latestArticle.data.title} 
+    img={latestArticle.data.img}
+    currentSlug={latestArticle.slug}
+>
+    <Press article={latestArticle} isNewest={true} />
+</ArticleLayout>
