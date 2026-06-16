@@ -150,6 +150,28 @@ const authors = [...new Set(allArticles.map(a => a.data.author))].sort();
     .article-drawer::-webkit-scrollbar-thumb { background: rgb(136, 58, 234); border-radius: 3px; }
     .article-drawer.is-open { transform: translateX(0); }
 
+    /* ── Desktop: push layout ── */
+    @media (min-width: 641px) {
+        .drawer-backdrop { display: none; }
+        .page-main {
+            transition:
+                margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .article-drawer.is-open ~ .page-main {
+            margin-left: min(85vw, 400px);
+            width: calc(100% - min(85vw, 400px));
+        }
+    }
+
+    /* ── Mobile: full-screen overlay ── */
+    @media (max-width: 640px) {
+        .article-drawer {
+            width: 100vw;
+            max-width: 100vw;
+        }
+    }
+
     .drawer-backdrop {
         position: fixed;
         top: 4.25rem;
@@ -279,12 +301,24 @@ const authors = [...new Set(allArticles.map(a => a.data.author))].sort();
     // ── Preserve drawer scroll across navigation ─────────────────────
     let savedDrawerScrollTop = 0;
     document.addEventListener('astro:before-swap', () => {
+        if (window.innerWidth <= 640) {
+            closeDrawer();
+        }
         const drawer = document.getElementById('article-drawer');
         if (drawer) savedDrawerScrollTop = drawer.scrollTop;
     });
     document.addEventListener('astro:after-swap', () => {
         const drawer = document.getElementById('article-drawer');
         if (drawer) drawer.scrollTop = savedDrawerScrollTop;
+
+        // Snap page-main to correct layout without animating on navigation
+        const main = document.querySelector<HTMLElement>('.page-main');
+        if (main) {
+            main.style.transition = 'none';
+            requestAnimationFrame(() => requestAnimationFrame(() => {
+                main.style.transition = '';
+            }));
+        }
     });
 
     // ── Active card sync ─────────────────────────────────────────────
