@@ -63,6 +63,7 @@ const isCombinedAuthors = article.data.author === "Eli Newlin & Seth Traman";
                 <Content />
             </div>
         </div>
+
     </div>
 </article>
 
@@ -315,10 +316,14 @@ if (document.readyState === 'loading') {
 
 /* Desktop: 8 zigs (default already set above) */
 
+.article-text {
+    max-width: 72ch;
+    margin: 0 auto;
+}
+
 :global(.article-text p) {
     margin-bottom: 1.1rem;
     line-height: 1.8;
-    max-width: 65ch;
     transition: opacity 0.3s ease;
 }
 
@@ -415,7 +420,6 @@ if (document.readyState === 'loading') {
 :global(.article-text ol) {
     margin: 1.5rem 0;
     padding-left: 2rem;
-    max-width: 65ch;
     position: relative;
 }
 
