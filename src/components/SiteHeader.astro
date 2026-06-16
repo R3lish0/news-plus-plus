@@ -1,9 +1,9 @@
 ---
 ---
 
-<header class="site-header">
+<header class="site-header" transition:persist transition:name="site-header">
     <div class="header-content">
-        <button class="hamburger-btn" id="hamburger-btn" aria-label="Toggle articles" aria-expanded="false" transition:persist>
+        <button class="hamburger-btn" id="hamburger-btn" aria-label="Toggle articles" aria-expanded="false">
             <span class="hamburger-line"></span>
             <span class="hamburger-line"></span>
             <span class="hamburger-line"></span>
@@ -46,7 +46,7 @@
     }
 
     .brand-logo {
-        height: 5rem;
+        height: 2.5rem;
         width: auto;
         object-fit: contain;
         image-rendering: auto;
@@ -56,8 +56,8 @@
         display: flex;
         flex-direction: column;
         justify-content: space-between;
-        width: 2.5rem;
-        height: 1.75rem;
+        width: 2rem;
+        height: 1.5rem;
         background: none;
         border: none;
         cursor: pointer;
@@ -77,7 +77,7 @@
     }
 
     .hamburger-btn.is-open .hamburger-line:nth-child(1) {
-        transform: translateY(0.8125rem) rotate(45deg);
+        transform: translateY(0.6875rem) rotate(45deg);
     }
 
     .hamburger-btn.is-open .hamburger-line:nth-child(2) {
@@ -86,13 +86,14 @@
     }
 
     .hamburger-btn.is-open .hamburger-line:nth-child(3) {
-        transform: translateY(-0.8125rem) rotate(-45deg);
+        transform: translateY(-0.6875rem) rotate(-45deg);
     }
 </style>
 
 <script>
     const btn = document.getElementById('hamburger-btn');
-    if (btn) {
+    if (btn && !btn.dataset.listenerAttached) {
+        btn.dataset.listenerAttached = 'true';
         btn.addEventListener('click', () => {
             const drawer = document.getElementById('article-drawer');
             const isOpen = drawer?.classList.toggle('is-open') ?? false;
