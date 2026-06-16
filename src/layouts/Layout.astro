@@ -371,10 +371,10 @@ const authors = [...new Set(allArticles.map(a => a.data.author))].sort();
     function syncActiveCard() {
         const drawer = document.getElementById('article-drawer');
         if (!drawer) return;
-        const currentPath = window.location.pathname;
+        const currentPath = window.location.pathname.replace(/\/$/, '');
         drawer.querySelectorAll<HTMLElement>('li[data-title]').forEach(card => {
-            const isActive = card.querySelector('a')?.getAttribute('href') === currentPath;
-            card.classList.toggle('active', isActive);
+            const href = card.querySelector('a')?.getAttribute('href')?.replace(/\/$/, '') ?? '';
+            card.classList.toggle('active', href === currentPath);
         });
     }
     document.addEventListener('astro:page-load', syncActiveCard);
