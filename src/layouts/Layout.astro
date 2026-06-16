@@ -151,7 +151,7 @@ const authors = [...new Set(allArticles.map(a => a.data.author))].sort();
     .article-drawer.is-open { transform: translateX(0); }
 
     /* ── Desktop: push layout ── */
-    @media (min-width: 641px) {
+    @media (min-width: 1025px) {
         .drawer-backdrop { display: none; }
         .page-main {
             transition:
@@ -165,7 +165,7 @@ const authors = [...new Set(allArticles.map(a => a.data.author))].sort();
     }
 
     /* ── Mobile: full-screen overlay ── */
-    @media (max-width: 640px) {
+    @media (max-width: 1024px) {
         .article-drawer {
             width: 100vw;
             max-width: 100vw;
@@ -278,50 +278,96 @@ const authors = [...new Set(allArticles.map(a => a.data.author))].sort();
         flex: unset !important;
         width: 100% !important;
         max-width: 100% !important;
+        min-width: 0 !important;
         height: auto !important;
         min-height: 13rem;
         margin: 0 !important;
         scroll-snap-align: none;
     }
+
+    /* ── Mobile: 2 cards per row when wide enough ── */
+    @media (max-width: 1024px) {
+        .drawer-card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(min(260px, 42vw), 1fr));
+            gap: 1.25rem;
+        }
+    }
 </style>
 
 <script>
-    // ── Drawer open/close ────────────────────────────────────────────
-    const backdrop = document.getElementById('drawer-backdrop');
+    // Guard: Astro re-runs inline scripts on every navigation — only init once
+    if (!(window as any).__drawerInit) {
+        (window as any).__drawerInit = true;
 
-    function closeDrawer() {
-        document.getElementById('article-drawer')?.classList.remove('is-open');
-        const btn = document.getElementById('hamburger-btn');
-        if (btn) { btn.classList.remove('is-open'); btn.setAttribute('aria-expanded', 'false'); }
+        // ── Drawer open/close ────────────────────────────────────────────
+        const backdrop = document.getElementById('drawer-backdrop');
+
+        function closeDrawer() {
+            document.getElementById('article-drawer')?.classList.remove('is-open');
+            const btn = document.getElementById('hamburger-btn');
+            if (btn) { btn.classList.remove('is-open'); btn.setAttribute('aria-expanded', 'false'); }
+        }
+
+        if (backdrop) backdrop.addEventListener('click', closeDrawer);
+        document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeDrawer(); });
+
+        // ── Preserve drawer scroll across navigation ─────────────────────
+        let savedDrawerScrollTop = 0;
+        document.addEventListener('astro:before-swap', () => {
+            if (window.innerWidth <= 1024) closeDrawer();
+            const drawer = document.getElementById('article-drawer');
+            if (drawer) savedDrawerScrollTop = drawer.scrollTop;
+        });
+        document.addEventListener('astro:after-swap', () => {
+            const drawer = document.getElementById('article-drawer');
+            if (drawer) drawer.scrollTop = savedDrawerScrollTop;
+            const main = document.querySelector<HTMLElement>('.page-main');
+            if (main) {
+                main.style.transition = 'none';
+                requestAnimationFrame(() => requestAnimationFrame(() => { main.style.transition = ''; }));
+            }
+        });
+
+        // ── Search & filter ──────────────────────────────────────────────
+        const searchInput = document.getElementById('drawer-search') as HTMLInputElement;
+        const authorSelect = document.getElementById('author-filter') as HTMLSelectElement;
+        const sortBtns = document.querySelectorAll<HTMLButtonElement>('.sort-btn');
+        const cardGrid = document.querySelector('.drawer-card-grid');
+        const noResults = document.getElementById('no-results');
+
+        let currentSort = 'newest';
+        let currentAuthor = '';
+        let currentSearch = '';
+
+        function applyFilters() {
+            if (!cardGrid || !noResults) return;
+            const cards = Array.from(cardGrid.querySelectorAll<HTMLElement>('li[data-title]'));
+            const query = currentSearch.toLowerCase();
+            const filtered = cards.filter(card =>
+                (card.dataset.title ?? '').toLowerCase().includes(query) &&
+                (!currentAuthor || card.dataset.author === currentAuthor)
+            );
+            filtered.sort((a, b) => {
+                const diff = new Date(b.dataset.date ?? '').getTime() - new Date(a.dataset.date ?? '').getTime();
+                return currentSort === 'newest' ? diff : -diff;
+            });
+            cards.forEach(c => (c.style.display = 'none'));
+            filtered.forEach(c => { c.style.display = ''; cardGrid.appendChild(c); });
+            noResults.style.display = filtered.length === 0 ? '' : 'none';
+        }
+
+        searchInput?.addEventListener('input', () => { currentSearch = searchInput.value; applyFilters(); });
+        authorSelect?.addEventListener('change', () => { currentAuthor = authorSelect.value; applyFilters(); });
+        sortBtns.forEach(btn => btn.addEventListener('click', () => {
+            sortBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            currentSort = btn.dataset.sort ?? 'newest';
+            applyFilters();
+        }));
     }
 
-    if (backdrop) backdrop.addEventListener('click', closeDrawer);
-    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeDrawer(); });
-
-    // ── Preserve drawer scroll across navigation ─────────────────────
-    let savedDrawerScrollTop = 0;
-    document.addEventListener('astro:before-swap', () => {
-        if (window.innerWidth <= 640) {
-            closeDrawer();
-        }
-        const drawer = document.getElementById('article-drawer');
-        if (drawer) savedDrawerScrollTop = drawer.scrollTop;
-    });
-    document.addEventListener('astro:after-swap', () => {
-        const drawer = document.getElementById('article-drawer');
-        if (drawer) drawer.scrollTop = savedDrawerScrollTop;
-
-        // Snap page-main to correct layout without animating on navigation
-        const main = document.querySelector<HTMLElement>('.page-main');
-        if (main) {
-            main.style.transition = 'none';
-            requestAnimationFrame(() => requestAnimationFrame(() => {
-                main.style.transition = '';
-            }));
-        }
-    });
-
-    // ── Active card sync ─────────────────────────────────────────────
+    // ── Active card sync (runs every page load) ──────────────────────
     function syncActiveCard() {
         const drawer = document.getElementById('article-drawer');
         if (!drawer) return;
@@ -332,41 +378,4 @@ const authors = [...new Set(allArticles.map(a => a.data.author))].sort();
         });
     }
     document.addEventListener('astro:page-load', syncActiveCard);
-
-    // ── Search & filter ──────────────────────────────────────────────
-    const searchInput = document.getElementById('drawer-search') as HTMLInputElement;
-    const authorSelect = document.getElementById('author-filter') as HTMLSelectElement;
-    const sortBtns = document.querySelectorAll<HTMLButtonElement>('.sort-btn');
-    const cardGrid = document.querySelector('.drawer-card-grid');
-    const noResults = document.getElementById('no-results');
-
-    let currentSort = 'newest';
-    let currentAuthor = '';
-    let currentSearch = '';
-
-    function applyFilters() {
-        if (!cardGrid || !noResults) return;
-        const cards = Array.from(cardGrid.querySelectorAll<HTMLElement>('li[data-title]'));
-        const query = currentSearch.toLowerCase();
-        const filtered = cards.filter(card =>
-            (card.dataset.title ?? '').toLowerCase().includes(query) &&
-            (!currentAuthor || card.dataset.author === currentAuthor)
-        );
-        filtered.sort((a, b) => {
-            const diff = new Date(b.dataset.date ?? '').getTime() - new Date(a.dataset.date ?? '').getTime();
-            return currentSort === 'newest' ? diff : -diff;
-        });
-        cards.forEach(c => (c.style.display = 'none'));
-        filtered.forEach(c => { c.style.display = ''; cardGrid.appendChild(c); });
-        noResults.style.display = filtered.length === 0 ? '' : 'none';
-    }
-
-    searchInput?.addEventListener('input', () => { currentSearch = searchInput.value; applyFilters(); });
-    authorSelect?.addEventListener('change', () => { currentAuthor = authorSelect.value; applyFilters(); });
-    sortBtns.forEach(btn => btn.addEventListener('click', () => {
-        sortBtns.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        currentSort = btn.dataset.sort ?? 'newest';
-        applyFilters();
-    }));
 </script>
