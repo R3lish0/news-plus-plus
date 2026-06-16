@@ -1,11 +1,13 @@
 ---
+import { render } from 'astro:content';
+
 interface Props {
     article: any;
     isNewest?: boolean;
 }
 
 const { article, isNewest = false } = Astro.props;
-const { Content } = await article.render();
+const { Content } = await render(article);
 
 const authors = [
     {
@@ -61,6 +63,7 @@ const isCombinedAuthors = article.data.author === "Eli Newlin & Seth Traman";
                 <Content />
             </div>
         </div>
+
     </div>
 </article>
 
@@ -132,6 +135,25 @@ if (document.readyState === 'loading') {
     overflow-y: auto;
     background: #1a1d23;
     padding: 0;
+    scrollbar-width: thin;
+    scrollbar-color: rgb(136, 58, 234) rgba(255, 255, 255, 0.05);
+}
+
+.article-content::-webkit-scrollbar {
+    width: 6px;
+}
+
+.article-content::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.03);
+}
+
+.article-content::-webkit-scrollbar-thumb {
+    background: rgb(136, 58, 234);
+    border-radius: 3px;
+}
+
+.article-content::-webkit-scrollbar-thumb:hover {
+    background: rgb(156, 78, 254);
 }
 
 .article-hero {
@@ -294,10 +316,14 @@ if (document.readyState === 'loading') {
 
 /* Desktop: 8 zigs (default already set above) */
 
+.article-text {
+    max-width: 72ch;
+    margin: 0 auto;
+}
+
 :global(.article-text p) {
     margin-bottom: 1.1rem;
     line-height: 1.8;
-    max-width: 65ch;
     transition: opacity 0.3s ease;
 }
 
@@ -394,7 +420,6 @@ if (document.readyState === 'loading') {
 :global(.article-text ol) {
     margin: 1.5rem 0;
     padding-left: 2rem;
-    max-width: 65ch;
     position: relative;
 }
 
@@ -540,26 +565,6 @@ if (document.readyState === 'loading') {
 
     .article-content {
         height: 100vh;
-        scrollbar-width: thin;
-        scrollbar-color: #6366f1 #374151;
-    }
-
-    .article-content::-webkit-scrollbar {
-        width: 8px;
-    }
-
-    .article-content::-webkit-scrollbar-track {
-        background: #374151;
-        border-radius: 4px;
-    }
-
-    .article-content::-webkit-scrollbar-thumb {
-        background: #6366f1;
-        border-radius: 4px;
-    }
-
-    .article-content::-webkit-scrollbar-thumb:hover {
-        background: #4f46e5;
     }
 }
 

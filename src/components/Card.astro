@@ -4,10 +4,11 @@ interface Props {
     title: string;
     author: string;
     img: string;
+    date: string;
     isActive?: boolean;
 }
 
-const { href, title, author, img, isActive = false } = Astro.props;
+const { href, title, author, img, date, isActive = false } = Astro.props;
 
 const authors = [
     {
@@ -24,7 +25,7 @@ const authorData = authors.find(a => a.name === author);
 const isCombinedAuthors = author === "Eli Newlin & Seth Traman";
 ---
 
-<li class={`link-card ${isActive ? 'active' : ''}`}>
+<li class={`link-card ${isActive ? 'active' : ''}`} data-title={title} data-author={author} data-date={date}>
     <a href={href}>
         <div class="image-container">
             <img class="image" src={img} alt="Title-card-not-found" />
@@ -33,19 +34,22 @@ const isCombinedAuthors = author === "Eli Newlin & Seth Traman";
             <h2 class="card-title">
                 {title}
             </h2>
-            <div class="card-author">
-                {isCombinedAuthors ? (
-                    <div class="author-pics-combined">
-                        {authors.map((authorInfo) => (
-                            <img class="author-profile-pic" src={authorInfo.profile_pic_uri} alt={authorInfo.name} />
-                        ))}
-                    </div>
-                ) : (
-                    authorData && (
-                        <img class="author-profile-pic" src={authorData.profile_pic_uri} alt={author} />
-                    )
-                )}
-                <span>By {author}</span>
+            <div class="card-footer">
+                <div class="card-author">
+                    {isCombinedAuthors ? (
+                        <div class="author-pics-combined">
+                            {authors.map((authorInfo) => (
+                                <img class="author-profile-pic" src={authorInfo.profile_pic_uri} alt={authorInfo.name} />
+                            ))}
+                        </div>
+                    ) : (
+                        authorData && (
+                            <img class="author-profile-pic" src={authorData.profile_pic_uri} alt={author} />
+                        )
+                    )}
+                    <span>By {author}</span>
+                </div>
+                <time class="card-date" datetime={date}>{date}</time>
             </div>
         </div>
     </a>
@@ -172,15 +176,29 @@ const isCombinedAuthors = author === "Eli Newlin & Seth Traman";
         color: rgb(224, 204, 250);
     }
 
+    .card-footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.5rem;
+        margin-top: auto;
+    }
+
     .card-author {
         font-size: 0.9rem;
         color: #aaa;
         font-weight: 500;
         text-align: left;
-        margin-top: auto;
         display: flex;
         align-items: center;
         gap: 0.5rem;
+    }
+
+    .card-date {
+        font-size: 0.75rem;
+        color: rgba(255, 255, 255, 0.35);
+        white-space: nowrap;
+        flex-shrink: 0;
     }
 
     .author-profile-pic {

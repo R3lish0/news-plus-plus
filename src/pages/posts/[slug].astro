@@ -17,7 +17,7 @@ const newestArticle = allArticles
         return dateB - dateA;
     })[0];
 
-const isNewest = article.slug === newestArticle?.slug;
+const isNewest = article.id === newestArticle?.id;
 
 // This function gets called at build time and generates the paths from the content folder
 export async function getStaticPaths() {
@@ -26,7 +26,7 @@ export async function getStaticPaths() {
 
     return allArticles.map((article) => {
         return {
-            params: { slug: article.slug },
+            params: { slug: article.id },
             //
             props: { article },
         };
@@ -34,10 +34,9 @@ export async function getStaticPaths() {
 }
 ---
 
-<ArticleLayout 
-    title={article.data.title} 
+<ArticleLayout
+    title={article.data.title}
     img={article.data.img}
-    currentSlug={article.slug}
 >
     <Press article={article} isNewest={isNewest} />
 </ArticleLayout>
