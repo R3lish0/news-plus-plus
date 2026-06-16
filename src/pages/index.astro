@@ -19,10 +19,9 @@ if (!latestArticle) {
 }
 ---
 
-<ArticleLayout 
-    title={latestArticle.data.title} 
+<ArticleLayout
+    title={latestArticle.data.title}
     img={latestArticle.data.img}
-    currentSlug={latestArticle.slug}
 >
     <Press article={latestArticle} isNewest={true} />
 </ArticleLayout>

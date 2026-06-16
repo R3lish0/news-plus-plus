@@ -1,5 +1,8 @@
 ---
 import SiteHeader from "../components/SiteHeader.astro";
+import Card from "../components/Card.astro";
+import { ClientRouter } from "astro:transitions";
+import { getCollection } from "astro:content";
 
 interface Props {
     title: string;
@@ -7,6 +10,12 @@ interface Props {
 }
 
 const { title, img } = Astro.props;
+
+const allArticles = await getCollection("article");
+allArticles.sort((a, b) =>
+    new Date(b.data.date).getTime() - new Date(a.data.date).getTime()
+);
+const authors = [...new Set(allArticles.map(a => a.data.author))].sort();
 ---
 
 <!doctype html>
@@ -18,6 +27,7 @@ const { title, img } = Astro.props;
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+        <ClientRouter />
         <title>{title}</title>
         <meta property="og:title" content={title} />
         <meta property="og:image" content={img} />
@@ -25,12 +35,52 @@ const { title, img } = Astro.props;
         <meta property="og:url" content={Astro.url.href} />
     </head>
     <body class="page-body">
-        <SiteHeader variant="mobile" />
+        <SiteHeader />
+
+        <aside class="article-drawer" id="article-drawer" aria-label="Article list" transition:persist transition:name="article-drawer">
+            <div class="drawer-controls">
+                <input
+                    type="search"
+                    id="drawer-search"
+                    class="search-input"
+                    placeholder="Search articles..."
+                    autocomplete="off"
+                />
+                <div class="filter-row">
+                    <div class="sort-toggle">
+                        <button class="sort-btn active" data-sort="newest">Newest</button>
+                        <button class="sort-btn" data-sort="oldest">Oldest</button>
+                    </div>
+                    <select id="author-filter" class="author-select">
+                        <option value="">All authors</option>
+                        {authors.map(author => (
+                            <option value={author}>{author}</option>
+                        ))}
+                    </select>
+                </div>
+            </div>
+            <p class="no-results" id="no-results" style="display:none">No articles found.</p>
+            <ul class="drawer-card-grid">
+                {allArticles.map((article) => (
+                    <Card
+                        href={`${import.meta.env.BASE_URL}posts/${article.id}`}
+                        title={article.data.title}
+                        img={article.data.img}
+                        author={article.data.author}
+                        date={article.data.date}
+                        isActive={false}
+                    />
+                ))}
+            </ul>
+        </aside>
+        <div class="drawer-backdrop" id="drawer-backdrop" transition:persist></div>
+
         <main class="page-main">
             <slot />
         </main>
     </body>
 </html>
+
 <style is:global>
     :root {
         --accent: 136, 58, 234;
@@ -46,38 +96,243 @@ const { title, img } = Astro.props;
     html {
         font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
         background: #13151a;
-        background-size: 224px;
         scroll-behavior: smooth;
     }
     code {
-        font-family:
-            Menlo,
-            Monaco,
-            Lucida Console,
-            Liberation Mono,
-            DejaVu Sans Mono,
-            Bitstream Vera Sans Mono,
-            Courier New,
-            monospace;
+        font-family: Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono,
+            Bitstream Vera Sans Mono, Courier New, monospace;
+    }
+    html, body {
+        overflow: hidden;
     }
     .page-body {
         display: flex;
         flex-direction: column;
         align-items: center;
-        min-height: 100vh;
+        height: 100dvh;
+        overflow: hidden;
     }
-
-    @media (min-width: 1201px) {
-        .page-body {
-            height: 100vh;
-            overflow: hidden;
-        }
-    }
-    
     .page-main {
         width: 100%;
         flex: 1;
         display: flex;
         flex-direction: column;
+        min-height: 0;
+    }
+
+    /* ── View transition: simple fade, drawer is excluded ── */
+    ::view-transition-old(root) { animation: 180ms ease out-fade; }
+    ::view-transition-new(root) { animation: 180ms ease in-fade; }
+    @keyframes out-fade { to   { opacity: 0; } }
+    @keyframes in-fade  { from { opacity: 0; } }
+    ::view-transition-old(article-drawer),
+    ::view-transition-new(article-drawer) { animation: none; }
+
+    /* ── Drawer ── */
+    .article-drawer {
+        position: fixed;
+        top: 4.25rem;
+        left: 0;
+        width: 85vw;
+        max-width: 400px;
+        height: calc(100dvh - 4.25rem);
+        background: #13151a;
+        border-right: 1px solid rgba(255, 255, 255, 0.1);
+        z-index: 200;
+        transform: translateX(-100%);
+        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        overflow-y: auto;
+        scrollbar-width: thin;
+        scrollbar-color: rgb(136, 58, 234) rgba(255, 255, 255, 0.05);
+    }
+    .article-drawer::-webkit-scrollbar { width: 6px; }
+    .article-drawer::-webkit-scrollbar-track { background: rgba(255, 255, 255, 0.03); }
+    .article-drawer::-webkit-scrollbar-thumb { background: rgb(136, 58, 234); border-radius: 3px; }
+    .article-drawer.is-open { transform: translateX(0); }
+
+    .drawer-backdrop {
+        position: fixed;
+        top: 4.25rem;
+        left: 0; right: 0; bottom: 0;
+        background: rgba(0, 0, 0, 0.6);
+        z-index: 199;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s ease;
+        backdrop-filter: blur(2px);
+    }
+    .article-drawer.is-open ~ .drawer-backdrop {
+        opacity: 1;
+        pointer-events: auto;
+    }
+
+    /* ── Drawer controls ── */
+    .drawer-controls {
+        padding: 1rem 1rem 0.5rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.625rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+        position: sticky;
+        top: 0;
+        background: #13151a;
+        z-index: 1;
+    }
+    .search-input {
+        width: 100%;
+        box-sizing: border-box;
+        background: rgba(255, 255, 255, 0.06);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 8px;
+        color: white;
+        padding: 0.5rem 0.75rem;
+        font-size: 0.9rem;
+        outline: none;
+        transition: border-color 0.2s ease, background 0.2s ease;
+    }
+    .search-input::placeholder { color: rgba(255, 255, 255, 0.35); }
+    .search-input:focus {
+        border-color: rgba(136, 58, 234, 0.6);
+        background: rgba(136, 58, 234, 0.06);
+    }
+    .search-input::-webkit-search-cancel-button { filter: invert(1) opacity(0.4); cursor: pointer; }
+    .filter-row { display: flex; gap: 0.5rem; align-items: center; }
+    .sort-toggle {
+        display: flex;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 6px;
+        padding: 2px;
+        gap: 2px;
+        flex-shrink: 0;
+    }
+    .sort-btn {
+        background: none;
+        border: none;
+        color: rgba(255, 255, 255, 0.5);
+        font-size: 0.8rem;
+        padding: 0.3rem 0.6rem;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: all 0.15s ease;
+        white-space: nowrap;
+    }
+    .sort-btn.active { background: rgba(136, 58, 234, 0.5); color: white; }
+    .sort-btn:not(.active):hover { color: rgba(255, 255, 255, 0.8); background: rgba(255, 255, 255, 0.05); }
+    .author-select {
+        flex: 1;
+        min-width: 0;
+        background: rgba(255, 255, 255, 0.06);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 6px;
+        color: white;
+        padding: 0.3rem 0.5rem;
+        font-size: 0.8rem;
+        outline: none;
+        cursor: pointer;
+        transition: border-color 0.2s ease;
+    }
+    .author-select:focus { border-color: rgba(136, 58, 234, 0.6); }
+    .author-select option { background: #1e2028; color: white; }
+    .no-results {
+        color: rgba(255, 255, 255, 0.4);
+        font-size: 0.9rem;
+        text-align: center;
+        padding: 2rem 1rem;
+        margin: 0;
+    }
+
+    /* ── Drawer card grid overrides ── */
+    .drawer-card-grid {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+        padding: 1rem;
+        list-style: none;
+        margin: 0;
+        width: 100%;
+        box-sizing: border-box;
+    }
+    .drawer-card-grid .link-card {
+        flex: unset !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        height: auto !important;
+        min-height: 13rem;
+        margin: 0 !important;
+        scroll-snap-align: none;
     }
 </style>
+
+<script>
+    // ── Drawer open/close ────────────────────────────────────────────
+    const backdrop = document.getElementById('drawer-backdrop');
+
+    function closeDrawer() {
+        document.getElementById('article-drawer')?.classList.remove('is-open');
+        const btn = document.getElementById('hamburger-btn');
+        if (btn) { btn.classList.remove('is-open'); btn.setAttribute('aria-expanded', 'false'); }
+    }
+
+    if (backdrop) backdrop.addEventListener('click', closeDrawer);
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeDrawer(); });
+
+    // ── Preserve drawer scroll across navigation ─────────────────────
+    let savedDrawerScrollTop = 0;
+    document.addEventListener('astro:before-swap', () => {
+        const drawer = document.getElementById('article-drawer');
+        if (drawer) savedDrawerScrollTop = drawer.scrollTop;
+    });
+    document.addEventListener('astro:after-swap', () => {
+        const drawer = document.getElementById('article-drawer');
+        if (drawer) drawer.scrollTop = savedDrawerScrollTop;
+    });
+
+    // ── Active card sync ─────────────────────────────────────────────
+    function syncActiveCard() {
+        const drawer = document.getElementById('article-drawer');
+        if (!drawer) return;
+        const currentPath = window.location.pathname;
+        drawer.querySelectorAll<HTMLElement>('li[data-title]').forEach(card => {
+            const isActive = card.querySelector('a')?.getAttribute('href') === currentPath;
+            card.classList.toggle('active', isActive);
+        });
+    }
+    document.addEventListener('astro:page-load', syncActiveCard);
+
+    // ── Search & filter ──────────────────────────────────────────────
+    const searchInput = document.getElementById('drawer-search') as HTMLInputElement;
+    const authorSelect = document.getElementById('author-filter') as HTMLSelectElement;
+    const sortBtns = document.querySelectorAll<HTMLButtonElement>('.sort-btn');
+    const cardGrid = document.querySelector('.drawer-card-grid');
+    const noResults = document.getElementById('no-results');
+
+    let currentSort = 'newest';
+    let currentAuthor = '';
+    let currentSearch = '';
+
+    function applyFilters() {
+        if (!cardGrid || !noResults) return;
+        const cards = Array.from(cardGrid.querySelectorAll<HTMLElement>('li[data-title]'));
+        const query = currentSearch.toLowerCase();
+        const filtered = cards.filter(card =>
+            (card.dataset.title ?? '').toLowerCase().includes(query) &&
+            (!currentAuthor || card.dataset.author === currentAuthor)
+        );
+        filtered.sort((a, b) => {
+            const diff = new Date(b.dataset.date ?? '').getTime() - new Date(a.dataset.date ?? '').getTime();
+            return currentSort === 'newest' ? diff : -diff;
+        });
+        cards.forEach(c => (c.style.display = 'none'));
+        filtered.forEach(c => { c.style.display = ''; cardGrid.appendChild(c); });
+        noResults.style.display = filtered.length === 0 ? '' : 'none';
+    }
+
+    searchInput?.addEventListener('input', () => { currentSearch = searchInput.value; applyFilters(); });
+    authorSelect?.addEventListener('change', () => { currentAuthor = authorSelect.value; applyFilters(); });
+    sortBtns.forEach(btn => btn.addEventListener('click', () => {
+        sortBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentSort = btn.dataset.sort ?? 'newest';
+        applyFilters();
+    }));
+</script>
