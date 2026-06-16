@@ -285,6 +285,21 @@ const authors = [...new Set(allArticles.map(a => a.data.author))].sort();
         scroll-snap-align: none;
     }
 
+    /* ── Active card highlight ── */
+    .drawer-card-grid .link-card.active,
+    .drawer-card-grid .link-card.active:hover {
+        background: radial-gradient(circle at center, rgba(136, 58, 234, 0.2) 0%, #23262d 70%) !important;
+        outline: 2px solid rgb(136, 58, 234) !important;
+        box-shadow: 0 0 12px rgba(136, 58, 234, 0.5) !important;
+        transform: none !important;
+    }
+    .drawer-card-grid .link-card.active .card-title {
+        color: rgb(224, 204, 250);
+    }
+    .drawer-card-grid .link-card.active .card-author {
+        color: rgba(224, 204, 250, 0.7);
+    }
+
     /* ── Mobile: 2 cards per row when wide enough ── */
     @media (max-width: 1024px) {
         .drawer-card-grid {
